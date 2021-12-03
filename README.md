@@ -7,10 +7,7 @@ At the moment you can:
     <li>1 in the user_details schema (firstName, lastName, university, registrationDate, userid (FK))</li>
   </ul>
   </li>
-  <li>
-  do a get request to print all elements in the users schema
-  </li>
-</ul>
+  
 UserDetailsDto:
 {
 <ul>
@@ -22,5 +19,12 @@ UserDetailsDto:
     <li>"registrationDate": "2012-04-23T18:25:43.511Z"</li>
 </ul>
 }
+  <li>
+  do get request to print all elements in the users schema
+  </li>
+  <li>
+    create a valid jwt (localhost:8080/authenticate with a json body of username:admin and password:admin) that you can use for 10 hours
+  </li>
 
+</ul>
   
