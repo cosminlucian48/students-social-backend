@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserDetailsMapper {
-    public UserDetails mapUserDetailsDtoToUserDetails(UserDetailsDto userDto){
+    public UserDetails mapUserDetailsDtoToUserDetails(UserDetailsDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
@@ -22,9 +22,16 @@ public class UserDetailsMapper {
         return userDetails;
     }
 
-    public UserDetailsDto mapUserDetailsToUserDetailsDto(UserDetails userDetails){
-        UserDetailsDto userDetailsDto =new UserDetailsDto();
+    public UserDetailsDto mapUserDetailsToUserDetailsDto(UserDetails userDetails) {
+        UserDetailsDto userDetailsDto = new UserDetailsDto();
+        userDetailsDto.setFirstName(userDetails.getFirstName());
+        userDetailsDto.setLastName(userDetails.getLastName());
+        userDetailsDto.setUniversity(userDetails.getUniversity());
+        userDetailsDto.setRegistrationDate(userDetails.getRegistrationDate());
+        userDetailsDto.setId(userDetails.getId());
 
+        userDetailsDto.setEmail(userDetails.getUser().getEmail());
+        userDetailsDto.setPassword(userDetails.getUser().getPassword());
         return userDetailsDto;
     }
 }
