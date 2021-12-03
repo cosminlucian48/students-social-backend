@@ -1,0 +1,16 @@
+package com.example.studentssocial.dto;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class UserDetailsDto {
+    private Long id;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String university;
+    private Date registrationDate;
+}
