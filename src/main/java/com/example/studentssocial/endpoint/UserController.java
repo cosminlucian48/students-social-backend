@@ -20,8 +20,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAllUsers() { return userService.getAllUsers();
     }
 
     //trebuie de gandit daca se implementeaza cumva aici, sau intr-un userdetailscontroller
