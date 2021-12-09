@@ -6,8 +6,8 @@ import java.util.Date;
 
 @Data
 public class UserSubjectDto {
-    private Long id_user;
-    private Long id_subject;
+    private Long userDetailsId;
+    private Long subjectId;
     private Date registrationDate;
 }
 

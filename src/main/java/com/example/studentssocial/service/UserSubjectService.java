@@ -11,6 +11,7 @@ package com.example.studentssocial.service;
 
         import java.util.ArrayList;
         import java.util.List;
+        import java.util.stream.Collectors;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
 @Service
@@ -28,10 +29,12 @@ public class UserSubjectService {
         this.userSubjectMapperDetails = userSubjectMapperDetails;
     }
 
-    public List<UserSubject> getAllUserSubjects() {
-        List<UserSubject> userSubjects = new ArrayList<>();
-        userSubjectRepository.findAll().iterator().forEachRemaining(userSubjects::add);
-        return userSubjects;
+    public List<UserSubjectDto> getAllUserSubjects() {
+        List<UserSubject> userSubject = new ArrayList<>();
+
+        userSubjectRepository.findAll().iterator().forEachRemaining(userSubject::add);
+        return userSubject.stream().map(elem -> userSubjectMapperDetails.mapUserSubjectToUserSubjectDto(elem)).collect(Collectors.toList());
+
     }
 
 

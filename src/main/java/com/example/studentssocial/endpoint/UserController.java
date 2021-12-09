@@ -22,12 +22,13 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() { return userService.getAllUsers();
     }
+    @GetMapping(value="/id")
+    public User getUserById(@PathVariable Long id){
+        return userService.getUserById(id);
+    }
+//
+//    @PatchMapping
 
-    //trebuie de gandit daca se implementeaza cumva aici, sau intr-un userdetailscontroller
-//    @GetMapping
-//    public List<UserDetails> getAllUsersDetails() {
-//        return userService.getAllUsersDetails();
-//    }
 
     @PostMapping
     public UserDetailsDto postUser(@RequestBody UserDetailsDto userDto) {

@@ -1,6 +1,7 @@
 package com.example.studentssocial.entity;
 
 import lombok.Data;
+import org.hibernate.mapping.Join;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,11 +13,12 @@ public class UserSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "id_user")
-    private Long id_user;
-
-    @Column(name = "id_subject")
-    private Long id_subject;
+    @JoinColumn
+    @ManyToOne()
+    private UserDetails userDetails;
+    @JoinColumn
+    @ManyToOne()
+    private Subject subject;
     @Column(name = "registrationDate")
     private Date registrationDate;
 }

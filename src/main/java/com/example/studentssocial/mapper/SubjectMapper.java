@@ -19,6 +19,7 @@ public class SubjectMapper {
 
     public SubjectDto mapSubjectToSubjectDto(Subject subject) {
         SubjectDto subjectDto = new SubjectDto();
+        subjectDto.setId(subject.getId());
         subjectDto.setName(subject.getName());
         subjectDto.setDescription(subject.getDescription());
         return subjectDto;

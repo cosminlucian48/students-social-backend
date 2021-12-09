@@ -1,14 +1,13 @@
 package com.example.studentssocial.endpoint;
 
 
+import com.example.studentssocial.dto.SubjectDto;
 import com.example.studentssocial.entity.Subject;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.service.SubjectService;
 import com.example.studentssocial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +25,9 @@ public class SubjectController {
     public List<Subject> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
+
+    @PostMapping
+    public SubjectDto postSubject(@RequestBody SubjectDto subjectDto){
+        return subjectService.saveSubject(subjectDto);}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
 @Service
@@ -34,12 +35,14 @@ public class UserService {
         return users;
     }
 
+    public List<UserDetailsDto> getAllUserDetails(){
+        List<UserDetailsDto> userDetailsDtos = new ArrayList<>();
+        List<UserDetails> userDetails= new ArrayList<>();
 
-//    public List<UserDetails> getAllUsersDetails(){
-//        List<UserDetails> usersDetails = new ArrayList<>();
-//        userDetailsRepository.findAll().iterator().forEachRemaining(usersDetails::add);
-//        return usersDetails;
-//    }
+        userDetailsRepository.findAll().iterator().forEachRemaining(userDetails::add);
+        return userDetails.stream().map(elem -> userMapperDetails.mapUserDetailsToUserDetailsDto(elem)).collect(Collectors.toList());
+
+    }
 
     public UserDetailsDto saveUser(UserDetailsDto userDetailsDto) {
         UserDetails userDetails = userMapperDetails.mapUserDetailsDtoToUserDetails(userDetailsDto);

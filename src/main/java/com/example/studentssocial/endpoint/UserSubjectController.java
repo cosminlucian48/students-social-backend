@@ -9,7 +9,7 @@ package com.example.studentssocial.endpoint;
         import java.util.List;
 
 @RestController
-@RequestMapping(value = "/user_subject")
+@RequestMapping(value = "/user-subject")
 public class UserSubjectController {
 
     private final UserSubjectService userSubjectService;
@@ -20,7 +20,7 @@ public class UserSubjectController {
     }
 
     @GetMapping
-    public List<UserSubject> getAllUserSubjects() {
+    public List<UserSubjectDto> getAllUserSubjects() {
         return userSubjectService.getAllUserSubjects();
     }
 
