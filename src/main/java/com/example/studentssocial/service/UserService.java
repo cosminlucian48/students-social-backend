@@ -34,6 +34,7 @@ public class UserService {
         return users;
     }
 
+
 //    public List<UserDetails> getAllUsersDetails(){
 //        List<UserDetails> usersDetails = new ArrayList<>();
 //        userDetailsRepository.findAll().iterator().forEachRemaining(usersDetails::add);
