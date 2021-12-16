@@ -40,15 +40,19 @@ public class PostService {
         }
     }
 
-    public Post updatePost(Long id, Post postUpdated) {
-        Optional<Post> postOptional = postRepository.findById(id);
+    public PostDto updatePost(Post postDto)
+    {
+        Post post = postRepository.findById(postDto.getId()).get();
+        post.setPostDate(postDto.getPostDate());
+        post.setTitle(postDto.getTitle());
+        post.setText(postDto.getText());
+        post.setIsSticky(postDto.getIsSticky());
+        post.setId(postDto.getId());
+        /*post.setSubject(postDto.getSubject());
+        post.setUserDetails(postDto.getUserDetails());*/
+        return postMapper.mapPostToPostDto(post);
 
-        if (postOptional.isPresent()) {
-            postUpdated.setId(id);
-            return postRepository.save(postUpdated);
 
-        }
-        return postUpdated;
     }
     public PostDto savePost(PostDto postDto)
     {

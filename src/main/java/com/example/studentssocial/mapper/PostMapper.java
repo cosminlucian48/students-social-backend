@@ -17,7 +17,7 @@ public class PostMapper {
     private final UserDetailsRepository userDetailsRepository;
     private final SubjectRepository subjectRepository;
 
-    public Post mapPostDtoToPost (PostDto postDto)
+    public Post mapPostDtoToPost(PostDto postDto)
     {
         Subject subject = subjectRepository.findById(postDto.getSubjectId()).get();
         UserDetails userDetails = userDetailsRepository.findById(postDto.getUserDetailsId()).get();

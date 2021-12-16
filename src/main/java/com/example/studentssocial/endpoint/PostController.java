@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import com.example.studentssocial.mapper.PostMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,9 +34,8 @@ public class PostController {
         postService.deletePost(id);
     }
     @PutMapping("/{id}")
-        public Post updatePost(@PathVariable Long id, @RequestBody Post post) {
-        postService.updatePost(id, post);
-        logger.info("Updated Post {}", post);
+        public Post updatePost(@RequestBody Post post) {
+        postService.updatePost(post);
         return post;
     }
     @PostMapping
