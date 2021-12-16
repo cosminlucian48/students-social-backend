@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -22,10 +23,10 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() { return userService.getAllUsers();
     }
-    /*@GetMapping(value="/id")
+   @GetMapping(value="/{id}")
     public User getUserById(@PathVariable Long id){
         return userService.getUserById(id);
-    }*/
+    }
 //
 //    @PatchMapping
 

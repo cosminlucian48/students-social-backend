@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
@@ -47,6 +49,34 @@ public class UserService {
     public UserDetailsDto saveUser(UserDetailsDto userDetailsDto) {
         UserDetails userDetails = userMapperDetails.mapUserDetailsDtoToUserDetails(userDetailsDto);
         UserDetails savedUserDetails = userDetailsRepository.save(userDetails);
+        System.out.print(userDetailsDto);
         return userMapperDetails.mapUserDetailsToUserDetailsDto(savedUserDetails);
     }
+
+
+    public User getUserById(Long id) {
+
+        Optional <User> optionalUser = userRepository.findById(id);
+        return optionalUser.orElse(null);
+    }
+
+    public UserDetails getUserDetailsById(Long id) {
+
+        Optional <UserDetails> optionalUserDetails = userDetailsRepository.findById(id);
+        return optionalUserDetails.orElse(null);
+    }
+
+    public UserDetails updateUser(Long id, UserDetails userDetails){
+
+        Optional <UserDetails> optionalUserDetails = userDetailsRepository.findById(id);
+        if(optionalUserDetails.isPresent()) {
+            userDetails.setId(id);
+            return userDetailsRepository.save(userDetails);
+        }else { throw new NoSuchElementException(String.valueOf(userDetails));
+        }
+    }
+
 }
+
+
+
