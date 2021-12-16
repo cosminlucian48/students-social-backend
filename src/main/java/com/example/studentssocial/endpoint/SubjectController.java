@@ -30,4 +30,8 @@ public class SubjectController {
     public SubjectDto postSubject(@RequestBody SubjectDto subjectDto){
         return subjectService.saveSubject(subjectDto);}
 
+    @GetMapping(value="/{id}")
+    public Subject getSubjectById(@PathVariable Long id){
+        return subjectService.getSubjectById(id);
+    }
 }

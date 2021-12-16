@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectService {
@@ -41,5 +42,11 @@ public class SubjectService {
         Subject subject = subjectMapper.mapSubjectDtoToSubject(subjectDto);
         Subject savedSubject = subjectRepository.save(subject);
         return subjectMapper.mapSubjectToSubjectDto(savedSubject);
+    }
+
+    public Subject getSubjectById(Long id) {
+
+        Optional<Subject> optionalSubject = subjectRepository.findById(id);
+        return optionalSubject.orElse(null);
     }
 }
