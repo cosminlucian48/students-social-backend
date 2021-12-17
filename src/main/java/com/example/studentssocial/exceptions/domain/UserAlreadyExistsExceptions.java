@@ -1,4 +1,4 @@
-package com.example.studentssocial.exceptions;
+package com.example.studentssocial.exceptions.domain;
 
 public class UserAlreadyExistsExceptions extends RuntimeException{
     public UserAlreadyExistsExceptions(String message) {

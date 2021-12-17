@@ -1,37 +1,33 @@
 package com.example.studentssocial.mapper;
 
-import com.example.studentssocial.dto.UserDetailsDto;
+import com.example.studentssocial.dto.UserDto;
 import com.example.studentssocial.entity.User;
-import com.example.studentssocial.entity.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserDetailsMapper {
-    public UserDetails mapUserDetailsDtoToUserDetails(UserDetailsDto userDto) {
+public class UserMapper {
+    public User mapUserDtoToUser(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setUniversity(userDto.getUniversity());
+        user.setRegistrationDate(userDto.getRegistrationDate());
 
-        UserDetails userDetails = new UserDetails();
-        userDetails.setFirstName(userDto.getFirstName());
-        userDetails.setLastName(userDto.getLastName());
-        userDetails.setUniversity(userDto.getUniversity());
-        userDetails.setRegistrationDate(userDto.getRegistrationDate());
-
-        userDetails.setUser(user);
-        return userDetails;
+        return user;
     }
 
-    public UserDetailsDto mapUserDetailsToUserDetailsDto(UserDetails userDetails) {
-        UserDetailsDto userDetailsDto = new UserDetailsDto();
-        userDetailsDto.setFirstName(userDetails.getFirstName());
-        userDetailsDto.setLastName(userDetails.getLastName());
-        userDetailsDto.setUniversity(userDetails.getUniversity());
-        userDetailsDto.setRegistrationDate(userDetails.getRegistrationDate());
-        userDetailsDto.setId(userDetails.getId());
+    public UserDto mapUserToUserDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setUniversity(user.getUniversity());
+        userDto.setRegistrationDate(user.getRegistrationDate());
+        userDto.setId(user.getId());
 
-        userDetailsDto.setEmail(userDetails.getUser().getEmail());
-        userDetailsDto.setPassword(userDetails.getUser().getPassword());
-        return userDetailsDto;
+        userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
+        return userDto;
     }
 }

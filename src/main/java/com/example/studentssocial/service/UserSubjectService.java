@@ -18,7 +18,6 @@ package com.example.studentssocial.service;
 public class UserSubjectService {
 
     private final UserSubjectRepository userSubjectRepository;
-    //private final UserDetailsRepository userDetailsRepository;
 
     private final UserSubjectMapper userSubjectMapperDetails;
 
