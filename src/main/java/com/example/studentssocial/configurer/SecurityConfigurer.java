@@ -31,13 +31,17 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(myUserDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .cors()
+                .and()
+                .headers().frameOptions().disable()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -54,7 +58,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 //        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 //        http.authorizeRequests().antMatchers("/").permitAll();
     }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

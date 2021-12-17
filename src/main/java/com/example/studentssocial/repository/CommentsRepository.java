@@ -1,7 +1,6 @@
 package com.example.studentssocial.repository;
 
 import com.example.studentssocial.entity.Comments;
-import com.example.studentssocial.entity.UserDetails;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

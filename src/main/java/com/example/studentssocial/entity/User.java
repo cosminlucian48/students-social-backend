@@ -26,14 +26,17 @@ public class User {
     private String university;
     @Column(name = "registrationDate")
     private Date registrationDate;
+    @Column(name = "authorities")
+    private String authorities;
 
-    public User(String email, String password, String firstName, String lastName, String university, Date registrationDate) {
+    public User(String email, String password, String firstName, String lastName, String university, Date registrationDate, String authorities) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.university = university;
         this.registrationDate = registrationDate;
+        this.authorities = authorities;
     }
 
     public User() {

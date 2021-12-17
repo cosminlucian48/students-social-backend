@@ -1,7 +1,8 @@
 package com.example.studentssocial.constants;
 
 public class SecurityConstant {
-    public static final String[] PUBLIC_URL = {"/user/login", "/user/register","/h2-console-students","/user"}; // am facut toate url urile publice
+        public static final String[] PUBLIC_URL = {"/user/login", "/user/register","/h2-console-students/**","/user"}; // am facut toate url urile publice
+//    public static final String[] PUBLIC_URL = {"/**"};
     //un array de url uri care o sa fie publice
     //login, h2, register
     /* public static final String[] PUBLIC_URLS = {"dashboard/user/login", "dashboard/user/register", "/user/resetpassword/**", "/user/image/**"}; //*/
@@ -17,13 +18,7 @@ public class SecurityConstant {
     public static final String ACCESS_DENIED_MESSAGE = "Access is denied";
 
 
-
-
-
-
-    public static final long JWT_EXPIRATION_PERIOD = 1000*60*60*10;
-
-
+    public static final long JWT_EXPIRATION_PERIOD = 1000 * 60 * 60 * 10;
 
 
 }

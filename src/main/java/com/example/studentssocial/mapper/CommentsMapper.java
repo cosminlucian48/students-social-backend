@@ -5,7 +5,6 @@ import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Comments;
 import com.example.studentssocial.entity.Post;
 import com.example.studentssocial.entity.Subject;
-import com.example.studentssocial.entity.UserDetails;
 import com.example.studentssocial.repository.PostRepository;
 import com.example.studentssocial.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;

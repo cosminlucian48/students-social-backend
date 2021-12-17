@@ -9,7 +9,6 @@ import com.example.studentssocial.repository.UserRepository;
 import com.example.studentssocial.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
 @Service
@@ -41,6 +39,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.userMapper = userMapperDetails;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -59,6 +58,7 @@ public class UserService {
         }
         User user = userMapper.mapUserDtoToUser(userDto);
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+
         User savedUser = userRepository.save(user);
         return userMapper.mapUserToUserDto(savedUser);
     }
@@ -68,6 +68,7 @@ public class UserService {
         if (!userAlreadyExists(userDto.getEmail())) {
             throw new UserDoesNotExists("Incorrect username or password");
         }
+        //try catch
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
 
