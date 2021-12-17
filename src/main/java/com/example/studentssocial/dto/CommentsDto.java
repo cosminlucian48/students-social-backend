@@ -1,0 +1,14 @@
+package com.example.studentssocial.dto;
+
+import com.example.studentssocial.entity.Post;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class CommentsDto {
+    private Long id;
+    private Date commentsDate;
+    private String text;
+    private long postId;
+}
