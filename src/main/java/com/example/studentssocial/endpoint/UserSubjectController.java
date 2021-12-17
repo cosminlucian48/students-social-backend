@@ -1,6 +1,7 @@
 package com.example.studentssocial.endpoint;
 
         import com.example.studentssocial.dto.UserSubjectDto;
+        import com.example.studentssocial.entity.User;
         import com.example.studentssocial.entity.UserSubject;
         import com.example.studentssocial.service.UserSubjectService;
         import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,17 @@ public class UserSubjectController {
     @PostMapping
     public UserSubjectDto postUser(@RequestBody UserSubjectDto userSubjectDto) {
         return userSubjectService.saveUserSubject(userSubjectDto);
+    }
+
+    @GetMapping(value="/{id}")
+    public UserSubject getUserSubjectById(@PathVariable Long id){
+        return userSubjectService.getUserSubjectById(id);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteUserSubject(@PathVariable Long id) {
+
+        userSubjectService.deleteUserSubject(id);
     }
 
 }

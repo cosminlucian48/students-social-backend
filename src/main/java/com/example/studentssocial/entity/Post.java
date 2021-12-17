@@ -12,8 +12,12 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "subject_id")
-    private Long subjectID;
+    @JoinColumn
+    @ManyToOne()
+    private User user;
+    @JoinColumn
+    @ManyToOne()
+    private Subject subject;
     @Column(name="title")
     private String title;
     @Column(name = "text")
@@ -22,8 +26,4 @@ public class Post {
     private Date postDate;
     @Column (name = "isSticky")
     private Boolean isSticky;
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id",referencedColumnName = "id")
-
-    private User user;
 }

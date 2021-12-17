@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -58,6 +59,24 @@ public class UserController {
         return headers;
 
     }
+
+    @GetMapping(value = "/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
+    @PutMapping(value = "/{id}")
+    public User updateUser(@PathVariable(name = "id") Long id,
+                           @RequestBody User user) {
+
+        return userService.updateUser(id, user);
+    }
 }
+
+
+
+
+
+
 
 

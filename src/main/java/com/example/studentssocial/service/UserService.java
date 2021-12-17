@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
 @Service
@@ -68,14 +71,12 @@ public class UserService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
 
-
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return jwt;
 //        return ResponseEntity.ok(new AuthenticationResponse(jwt));
 
     }
-
 
     public boolean userAlreadyExists(String userEmail) {
         List<User> users = getUsersByEmail(userEmail);
@@ -89,4 +90,25 @@ public class UserService {
         List<User> users = userRepository.findUserByEmail(userEmail);
         return users;
     }
+
+
+    public User getUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.orElse(null);
+    }
+
+
+    public User updateUser(Long id, User user) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            user.setId(id);
+            return userRepository.save(user);
+        } else {
+            throw new NoSuchElementException(String.valueOf(user));
+        }
+    }
+
+
 }
+
