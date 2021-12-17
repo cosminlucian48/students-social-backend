@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class UserSubjectService {
 
     private final UserSubjectRepository userSubjectRepository;
-    //private final UserDetailsRepository userDetailsRepository;
 
     private final UserSubjectMapper userSubjectMapperDetails;
 

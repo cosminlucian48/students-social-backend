@@ -61,4 +61,8 @@ public class PostService {
         return postMapper.mapPostToPostDto(savedPost);
     }
 
+//    public PostDto updatePost(PostDto postDto){
+//        Post post = postRepository.findById(postDto.getId()).get();
+//        return postMapper.mapPostToPostDto(post);
+//    }
 }

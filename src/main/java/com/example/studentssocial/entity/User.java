@@ -1,9 +1,11 @@
 package com.example.studentssocial.entity;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -16,5 +18,24 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "firstName")
+    private String firstName;
+    @Column(name = "lastName")
+    private String lastName;
+    @Column(name = "university")
+    private String university;
+    @Column(name = "registrationDate")
+    private Date registrationDate;
 
+    public User(String email, String password, String firstName, String lastName, String university, Date registrationDate) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.university = university;
+        this.registrationDate = registrationDate;
+    }
+
+    public User() {
+    }
 }

@@ -15,10 +15,11 @@ public class UserSubject {
     private Long id;
     @JoinColumn
     @ManyToOne()
-    private UserDetails userDetails;
+    private User user;
     @JoinColumn
     @ManyToOne()
     private Subject subject;
     @Column(name = "registrationDate")
     private Date registrationDate;
+
 }

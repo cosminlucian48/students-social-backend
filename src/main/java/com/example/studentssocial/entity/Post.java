@@ -14,7 +14,7 @@ public class Post {
     private Long id;
     @JoinColumn
     @ManyToOne()
-    private UserDetails userDetails;
+    private User user;
     @JoinColumn
     @ManyToOne()
     private Subject subject;
