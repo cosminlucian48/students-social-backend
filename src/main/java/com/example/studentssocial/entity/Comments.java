@@ -19,4 +19,8 @@ public class Comments {
     @JoinColumn
     @ManyToOne()
     private Post post;
+    @JoinColumn
+    @ManyToOne()
+    private User user;
+
 }

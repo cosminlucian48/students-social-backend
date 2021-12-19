@@ -5,8 +5,10 @@ import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Comments;
 import com.example.studentssocial.entity.Post;
 import com.example.studentssocial.entity.Subject;
+import com.example.studentssocial.entity.User;
 import com.example.studentssocial.repository.PostRepository;
 import com.example.studentssocial.repository.SubjectRepository;
+import com.example.studentssocial.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +18,17 @@ import org.springframework.stereotype.Component;
 public class CommentsMapper {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public Comments mapCommentsDtoToComments(CommentsDto commentsDto)
     {
         Post post = postRepository.findById(commentsDto.getPostId()).get();
+        User user = userRepository.findById(commentsDto.getPostId()).get();
         Comments comments = new Comments();
 
         comments.setPost(post);
+        comments.setUser(user);
+
 
         comments.setId(commentsDto.getId());
         comments.setCommentsDate(commentsDto.getCommentsDate());
@@ -37,6 +43,7 @@ public class CommentsMapper {
         CommentsDto commentsDto = new CommentsDto();
 
         commentsDto.setPostId(comments.getPost().getId());
+        commentsDto.setUserId(comments.getUser().getId());
 
         commentsDto.setId(comments.getId());
         commentsDto.setCommentsDate(comments.getCommentsDate());
