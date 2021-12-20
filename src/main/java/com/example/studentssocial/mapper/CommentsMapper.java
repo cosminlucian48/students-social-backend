@@ -23,7 +23,7 @@ public class CommentsMapper {
     public Comments mapCommentsDtoToComments(CommentsDto commentsDto)
     {
         Post post = postRepository.findById(commentsDto.getPostId()).get();
-        User user = userRepository.findById(commentsDto.getPostId()).get();
+        User user = userRepository.findById(commentsDto.getUserId()).get();
         Comments comments = new Comments();
 
         comments.setPost(post);
