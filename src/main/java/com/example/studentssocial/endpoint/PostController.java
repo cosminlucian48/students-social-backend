@@ -25,8 +25,11 @@ public class PostController {
     @GetMapping
     public List<Post> getAllPosts(){return postService.getAllPosts();}
 
+    @GetMapping(value = "/subject/{subjectId}")
+    public List<PostDto> getPostsBySubjectId(@PathVariable("subjectId") Long subjectId){return postService.getPostsBySubjectId(subjectId);}
+
     @GetMapping(value = "/{id}")
-    public Optional<Post> getSubject(@PathVariable("id") Long id) { return postService.getPost(id); }
+    public Optional<Post> getPost(@PathVariable("id") Long id) { return postService.getPost(id); }
 
     @DeleteMapping("/{id}")
     public void deleteSubject(@PathVariable Long id) {

@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/subject")
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class SubjectController {
     private final SubjectService subjectService;
 

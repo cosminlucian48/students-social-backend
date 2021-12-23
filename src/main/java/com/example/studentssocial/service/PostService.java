@@ -61,6 +61,18 @@ public class PostService {
         return postMapper.mapPostToPostDto(savedPost);
     }
 
+    public List<PostDto> getPostsBySubjectId(Long subjectId){
+        List<Post> allPosts = new ArrayList<>();
+        postRepository.findAll().iterator().forEachRemaining(allPosts::add);
+        List<PostDto> finalPosts = new ArrayList<>();
+        for(Post post: allPosts){
+            if(post.getSubject().getId() == subjectId){
+                finalPosts.add(postMapper.mapPostToPostDto(post));
+            }
+        }
+        return finalPosts;
+    }
+
 //    public PostDto updatePost(PostDto postDto){
 //        Post post = postRepository.findById(postDto.getId()).get();
 //        return postMapper.mapPostToPostDto(post);
