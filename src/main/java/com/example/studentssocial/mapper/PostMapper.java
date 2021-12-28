@@ -18,7 +18,7 @@ public class PostMapper {
     public Post mapPostDtoToPost(PostDto postDto)
     {
         Subject subject = subjectRepository.findById(postDto.getSubjectId()).get();
-        User user = userRepository.findById(postDto.getUserDetailsId()).get();
+        User user = userRepository.findById(postDto.getUserId()).get();
         Post post = new Post();
 
 
@@ -40,7 +40,7 @@ public class PostMapper {
         PostDto postDto = new PostDto();
 
         postDto.setSubjectId(post.getSubject().getId());
-        postDto.setUserDetailsId(post.getUser().getId());
+        postDto.setUserId(post.getUser().getId());
 
         postDto.setId(post.getId());
         postDto.setPostDate(post.getPostDate());

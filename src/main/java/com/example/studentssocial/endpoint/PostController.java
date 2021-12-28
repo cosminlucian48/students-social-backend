@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/post")
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class PostController {
 
 
@@ -25,8 +26,12 @@ public class PostController {
     @GetMapping
     public List<Post> getAllPosts(){return postService.getAllPosts();}
 
+//    @GetMapping(value = "/subject/{subjectId}")
+//    public List<PostDto> getPostsBySubjectId(@PathVariable("subjectId") Long subjectId){return postService.getPostsBySubjectId(subjectId);}
+
     @GetMapping(value = "/subject/{subjectId}")
     public List<PostDto> getPostsBySubjectId(@PathVariable("subjectId") Long subjectId){return postService.getPostsBySubjectId(subjectId);}
+
 
     @GetMapping(value = "/{id}")
     public Optional<Post> getPost(@PathVariable("id") Long id) { return postService.getPost(id); }

@@ -2,6 +2,7 @@ package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Post;
+import com.example.studentssocial.entity.User;
 import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.Optional;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
     private final PostMapper postMapper;
 
     @Autowired
-    public PostService(PostRepository postRepository, PostMapper postMapper) {
+    public PostService(PostRepository postRepository, UserService userService, PostMapper postMapper) {
+        this.userService = userService;
         this.postMapper = postMapper;
         this.postRepository = postRepository;
     }
@@ -67,7 +70,10 @@ public class PostService {
         List<PostDto> finalPosts = new ArrayList<>();
         for(Post post: allPosts){
             if(post.getSubject().getId() == subjectId){
-                finalPosts.add(postMapper.mapPostToPostDto(post));
+                User user = userService.getUserById(post.getUser().getId());
+                PostDto postDto = postMapper.mapPostToPostDto(post);
+                postDto.setUsername(user.getEmail());
+                finalPosts.add(postDto);
             }
         }
         return finalPosts;
