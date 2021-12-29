@@ -3,21 +3,14 @@ package com.example.studentssocial.endpoint;
 import com.example.studentssocial.constants.SecurityConstant;
 import com.example.studentssocial.dto.UserDto;
 import com.example.studentssocial.entity.User;
-import com.example.studentssocial.service.MyUserDetailsService;
 import com.example.studentssocial.service.UserService;
-import com.example.studentssocial.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -61,6 +54,9 @@ public class UserController {
 
     }
 
+
+    @GetMapping(value = "/subject/{subjectId}")
+    public List<User> getUserBySubjectId(@PathVariable("subjectId") Long subjectId){return userService.getUsersBySubjectId(subjectId);}
     @GetMapping(value = "/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
