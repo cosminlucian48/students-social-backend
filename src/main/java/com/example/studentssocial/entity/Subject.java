@@ -16,6 +16,9 @@ public class Subject {
     private String name;
     @Column(name = "description")
     private String description;
+    @JoinColumn
+    @ManyToOne()
+    private User user;
 
 
 }

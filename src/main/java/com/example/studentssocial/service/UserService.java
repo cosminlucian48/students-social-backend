@@ -87,7 +87,7 @@ public class UserService {
         return true;
     }
 
-    private List<User> getUsersByEmail(String userEmail) {
+    public List<User> getUsersByEmail(String userEmail) {
         List<User> users = userRepository.findUserByEmail(userEmail);
         return users;
     }

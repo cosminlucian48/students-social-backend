@@ -8,7 +8,7 @@ import java.util.Date;
 public class PostDto {
     private Long id;
     private Long userId;
-    private String username;
+    private String email;
     private Long subjectId;
     private Date postDate;
     private String title;

@@ -5,7 +5,9 @@ import com.example.studentssocial.entity.Post;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.repository.PostRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,7 +29,9 @@ public class PostService {
 
     public List<Post> getAllPosts() {
         List<Post> posts = new ArrayList<>();
-        postRepository.findAll().iterator().forEachRemaining(posts::add);
+//        postRepository.findAllByOrderByPostDateDesc().iterator().forEachRemaining(posts::add);
+        posts = postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+//        postRepository.findAll().iterator().forEachRemaining(posts::add);
         return posts;
     }
 
@@ -59,7 +63,10 @@ public class PostService {
     }
     public PostDto savePost(PostDto postDto)
     {
+        List<User> users = userService.getUsersByEmail(postDto.getEmail());
+        postDto.setUserId(users.get(0).getId());
         Post post = postMapper.mapPostDtoToPost(postDto);
+
         Post savedPost = postRepository.save(post);
         return postMapper.mapPostToPostDto(savedPost);
     }
@@ -72,7 +79,7 @@ public class PostService {
             if(post.getSubject().getId() == subjectId){
                 User user = userService.getUserById(post.getUser().getId());
                 PostDto postDto = postMapper.mapPostToPostDto(post);
-                postDto.setUsername(user.getEmail());
+                postDto.setEmail(user.getEmail());
                 finalPosts.add(postDto);
             }
         }

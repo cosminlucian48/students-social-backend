@@ -14,12 +14,12 @@ values ('100', 'cosminlucian48@yahoo.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVO
        ('106', 'hatzjonule69@yahoo.com', 'frontal2223', 'Dorian', 'Popa', 'Politehnica Bucuresti',
         '2021-11-23T18:25:43.511Z');
 
-insert into subject (id, name, description)
-values ('101', 'Calculus 1', 'Introduction involving curves and differential equations'),
-       ('102', 'Descriptive Geometry', 'Representation of 3-D Models'),
-       ('103', 'Mechanics', 'Physical phenomena involving motion of objects'),
-       ('104', 'Object Oriented Programming', 'Introductory course, involving classes and a small project'),
-       ('105', 'Computer Vision', 'Field of AI which involves manipulation of images and videos');
+insert into subject (id, name, description,user_Id)
+values ('101', 'Calculus 1', 'Introduction involving curves and differential equations', '100'),
+       ('102', 'Descriptive Geometry', 'Representation of 3-D Models','100'),
+       ('103', 'Mechanics', 'Physical phenomena involving motion of objects','100'),
+       ('104', 'Object Oriented Programming', 'Introductory course, involving classes and a small project','100'),
+       ('105', 'Computer Vision', 'Field of AI which involves manipulation of images and videos','100');
 
 insert into user_subject(id, registration_Date, subject_Id, user_Id)
 values ('101', '2021-08-23T18:25:43.511Z', '101', '101'),
