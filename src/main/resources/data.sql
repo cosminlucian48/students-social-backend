@@ -1,18 +1,18 @@
-insert into user(id, email, password, first_Name, last_Name, university, registration_Date)
+insert into user(id, email, password, first_Name, last_Name, university, registration_Date,authorities)
 values ('100', 'cosminlucian48@yahoo.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWEDR9xyVlzJDKbs/wxKb6', 'Cosmin', 'Ruja', 'Universitate din Bucuresti',
-        '2021-05-23T18:25:43.511Z'),
+        '2021-05-23T18:25:43.511Z','ADMIN'),
        ('101', 'cosminruja@yahoo.com', 'Cosmin22', 'Cosmin', 'Ruja', 'Universitate din Bucuresti',
-        '2021-05-23T18:25:43.511Z'),
+        '2021-05-23T18:25:43.511Z',''),
        ('102', 'andreiionel@yahoo.com', '1234567', 'Andrei', 'Popescu', 'Universitatea din Bucuresti',
-        '2021-10-23T18:25:43.511Z'),
+        '2021-10-23T18:25:43.511Z',''),
        ('103', 'biziday22@yahoo.com', 'bitcoini', 'Laurentiu', 'Suto', 'Universitatea din Bucuresti',
-        '2020-08-23T18:25:43.511Z'),
+        '2020-08-23T18:25:43.511Z',''),
        ('104', 'linkedinemployee33@yahoo.com', 'memeslol', 'Percutiu', 'Avramescu', 'Politehnica Bucuresti',
-        '2021-06-20T18:25:43.511Z'),
+        '2021-06-20T18:25:43.511Z',''),
        ('105', 'pandadaniel12@yahoo.com', 'frontal2223', 'Daniel', 'Ionasiu', 'Politehnica Bucuresti',
-        '2021-08-23T18:25:43.511Z'),
+        '2021-08-23T18:25:43.511Z',''),
        ('106', 'hatzjonule69@yahoo.com', 'frontal2223', 'Dorian', 'Popa', 'Politehnica Bucuresti',
-        '2021-11-23T18:25:43.511Z');
+        '2021-11-23T18:25:43.511Z','');
 
 insert into subject (id, name, description,user_Id)
 values ('101', 'Calculus 1', 'Introduction involving curves and differential equations', '100'),

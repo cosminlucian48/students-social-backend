@@ -9,4 +9,5 @@ public class SubjectDto {
     private String name;
     private String description;
     private Long userId;
+    private String userEmail;
 }

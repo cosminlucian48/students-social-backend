@@ -37,7 +37,11 @@ public class JwtUtil {
     public String generateToken(UserDetails userDetails){
         // Se mai pot adauga alte chestii in jwt, nu doar username ul
         Map<String,Object> claims = new HashMap<>();
+        addClaimsForToken(claims, userDetails);
         return createToken(claims, userDetails.getUsername());
+    }
+    private void addClaimsForToken(Map<String,Object> claims, UserDetails userDetails){
+        claims.put("roles",userDetails.getAuthorities());
     }
     private String createToken(Map<String,Object> claims, String subject){
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))

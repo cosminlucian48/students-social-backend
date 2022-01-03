@@ -13,4 +13,5 @@ public class UserDto {
     private String lastName;
     private String university;
     private Date registrationDate;
+    private String authorities;
 }

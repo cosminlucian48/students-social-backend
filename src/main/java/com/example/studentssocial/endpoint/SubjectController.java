@@ -23,7 +23,7 @@ public class SubjectController {
     }
 
     @GetMapping
-    public List<Subject> getAllSubjects() {
+    public List<SubjectDto> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
 
@@ -34,5 +34,10 @@ public class SubjectController {
     @GetMapping(value="/{id}")
     public Subject getSubjectById(@PathVariable Long id){
         return subjectService.getSubjectById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSubject(@PathVariable Long id) {
+        subjectService.deleteSubject(id);
     }
 }

@@ -29,6 +29,7 @@ public class User {
     @Column(name = "authorities")
     private String authorities;
 
+
     public User(String email, String password, String firstName, String lastName, String university, Date registrationDate, String authorities) {
         this.email = email;
         this.password = password;
