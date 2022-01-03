@@ -46,6 +46,18 @@ public class CommentsService {
         }
     }
 
+    public List<CommentsDto> getCommentsbyPostId(Long postId){
+        List<Comments> allComments = new ArrayList<>();
+        commentsRepository.findAll().iterator().forEachRemaining(allComments::add);
+        List<CommentsDto> finalComments = new ArrayList<>();
+        for(Comments comments: allComments){
+            if(comments.getPost().getId() == postId){
+                finalComments.add(commentsMapper.mapCommentsToCommentsDto(comments));
+            }
+        }
+        return finalComments;
+    }
+
     public CommentsDto updateComments(Comments commentsDto)
     {
         Comments comments = commentsRepository.findById(commentsDto.getId()).get();

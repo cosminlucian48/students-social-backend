@@ -4,11 +4,13 @@ import com.example.studentssocial.dto.UserDto;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.enums.RoleType;
 import com.example.studentssocial.enums.UserType;
+import com.example.studentssocial.entity.UserSubject;
 import com.example.studentssocial.exceptions.domain.UserAlreadyExistsExceptions;
 import com.example.studentssocial.exceptions.domain.UserDoesNotExists;
 import com.example.studentssocial.mapper.UserMapper;
 import com.example.studentssocial.repository.UserRepository;
 import com.example.studentssocial.util.ApplicationUtil;
+import com.example.studentssocial.repository.UserSubjectRepository;
 import com.example.studentssocial.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +26,7 @@ import java.util.*;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserSubjectRepository userSubjectRepository;
 
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -35,8 +38,9 @@ public class UserService {
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapperDetails, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
+    public UserService(UserRepository userRepository, UserSubjectRepository userSubjectRepository, UserMapper userMapperDetails, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
         this.userRepository = userRepository;
+        this.userSubjectRepository = userSubjectRepository;
         this.userMapper = userMapperDetails;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 //        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -128,6 +132,18 @@ public class UserService {
         } else {
             throw new NoSuchElementException(String.valueOf(user));
         }
+    }
+
+    public List<User> getUsersBySubjectId(Long subjectId)
+    {
+        List<UserSubject> usersSubject = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        userSubjectRepository.findAllBySubjectId(subjectId).iterator().forEachRemaining(usersSubject::add);
+        for (UserSubject userSubject : usersSubject)
+        {
+            users.add(this.getUserById(userSubject.getUser().getId()));
+        }
+        return users;
     }
 
 
