@@ -1,5 +1,6 @@
 package com.example.studentssocial.endpoint;
 
+        import com.example.studentssocial.dto.UserSettingsDto;
         import com.example.studentssocial.dto.UserSubjectDto;
         import com.example.studentssocial.entity.User;
         import com.example.studentssocial.entity.UserSubject;
@@ -11,6 +12,7 @@ package com.example.studentssocial.endpoint;
 
 @RestController
 @RequestMapping(value = "/user-subject")
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class UserSubjectController {
 
     private final UserSubjectService userSubjectService;
@@ -26,11 +28,12 @@ public class UserSubjectController {
     }
 
 
-
     @PostMapping
     public UserSubjectDto postUser(@RequestBody UserSubjectDto userSubjectDto) {
         return userSubjectService.saveUserSubject(userSubjectDto);
     }
+
+
 
     @GetMapping(value="/{id}")
     public UserSubject getUserSubjectById(@PathVariable Long id){
@@ -42,5 +45,7 @@ public class UserSubjectController {
 
         userSubjectService.deleteUserSubject(id);
     }
+
+
 
 }

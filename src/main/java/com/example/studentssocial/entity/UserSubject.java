@@ -1,5 +1,6 @@
 package com.example.studentssocial.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.mapping.Join;
 
@@ -21,5 +22,6 @@ public class UserSubject {
     private Subject subject;
     @Column(name = "registrationDate")
     private Date registrationDate;
+
 
 }
