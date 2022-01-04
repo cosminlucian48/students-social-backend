@@ -1,6 +1,8 @@
 insert into user(id, email, password, first_Name, last_Name, university, registration_Date,authorities)
 values ('100', 'cosminlucian48@yahoo.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWEDR9xyVlzJDKbs/wxKb6', 'Cosmin', 'Ruja', 'Universitate din Bucuresti',
         '2021-05-23T18:25:43.511Z','ADMIN'),
+       ('99', 'iuliangal@gmail.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWEDR9xyVlzJDKbs/wxKb6', 'Iulian', 'Gal', 'Universitate din Bucuresti',
+        '2021-05-23T18:25:43.511Z','ADMIN'),
        ('101', 'cosminruja@yahoo.com', 'Cosmin22', 'Cosmin', 'Ruja', 'Universitate din Bucuresti',
         '2021-05-23T18:25:43.511Z',''),
        ('102', 'andreiionel@yahoo.com', '1234567', 'Andrei', 'Popescu', 'Universitatea din Bucuresti',
