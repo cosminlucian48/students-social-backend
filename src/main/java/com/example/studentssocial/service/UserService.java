@@ -61,8 +61,16 @@ public class UserService {
             throw new UserAlreadyExistsExceptions("User already exists!");
         }
         return parseAndCreateUser(userDto, UserType.USER);
-
     }
+
+//    public UserDto registerUser(UserDto userDto) {
+//        if (userAlreadyExists(userDto.getEmail())) {
+//            throw new UserAlreadyExistsExceptions("User already exists!");
+//        }
+//        return parseAndCreateUser(userDto, UserType.USER);
+//
+//    }
+
 
     private UserDto parseAndCreateUser(UserDto userDto, UserType userType) {
         User user = userMapper.mapUserDtoToUser(userDto);
@@ -115,6 +123,14 @@ public class UserService {
         List<User> users = userRepository.findUserByEmail(userEmail);
         return users;
     }
+    public UserDto getUserByEmail(String userEmail) {
+        List<User> users = userRepository.findUserByEmail(userEmail);
+        if(users.size()==1){
+            return userMapper.mapUserToUserDto(users.get(0));
+        }
+        return null;
+
+    }
 
 
     public User getUserById(Long id) {
@@ -145,6 +161,7 @@ public class UserService {
         }
         return users;
     }
+
 
 
 }

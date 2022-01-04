@@ -24,13 +24,15 @@ public class User {
     private String lastName;
     @Column(name = "university")
     private String university;
+    @Column(name = "faculty")
+    private String faculty;
     @Column(name = "registrationDate")
     private Date registrationDate;
     @Column(name = "authorities")
     private String authorities;
 
 
-    public User(String email, String password, String firstName, String lastName, String university, Date registrationDate, String authorities) {
+    public User(String email, String password, String firstName, String lastName, String university, Date registrationDate, String authorities, String faculty) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -38,6 +40,7 @@ public class User {
         this.university = university;
         this.registrationDate = registrationDate;
         this.authorities = authorities;
+        this.faculty = faculty;
     }
 
     public User() {

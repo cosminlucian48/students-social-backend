@@ -16,5 +16,8 @@ package com.example.studentssocial.repository;
 public interface UserSubjectRepository extends CrudRepository<UserSubject,Long> {
         Optional<UserSubject> findById(Long id);
         List<UserSubject> findAllBySubjectId(Long id);
+        List<UserSubject> findAllByUserId(Long id);
+        List<UserSubject> findAllByUserIdAndAndSubjectId(Long userId, Long subjectId);
+        void deleteAllByUserId(Long userId);
 }
 

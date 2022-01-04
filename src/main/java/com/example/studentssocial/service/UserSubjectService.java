@@ -1,17 +1,18 @@
 package com.example.studentssocial.service;
 
+import com.example.studentssocial.dto.UserSettingsDto;
 import com.example.studentssocial.dto.UserSubjectDto;
+import com.example.studentssocial.entity.Subject;
+import com.example.studentssocial.entity.User;
 import com.example.studentssocial.entity.UserSubject;
 import com.example.studentssocial.mapper.UserSubjectMapper;
+import com.example.studentssocial.repository.SubjectRepository;
+import com.example.studentssocial.repository.UserRepository;
 import com.example.studentssocial.repository.UserSubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
@@ -19,12 +20,16 @@ import java.util.stream.Collectors;
 public class UserSubjectService {
 
     private final UserSubjectRepository userSubjectRepository;
+    private final UserRepository userRepository;
+    private final SubjectRepository subjectRepository;
 
     private final UserSubjectMapper userSubjectMapperDetails;
 
     @Autowired
-    public UserSubjectService(UserSubjectRepository userSubjectRepository, UserSubjectMapper userSubjectMapperDetails) {
+    public UserSubjectService(UserSubjectRepository userSubjectRepository, UserRepository userRepository, SubjectRepository subjectRepository, UserSubjectMapper userSubjectMapperDetails) {
         this.userSubjectRepository = userSubjectRepository;
+        this.userRepository = userRepository;
+        this.subjectRepository = subjectRepository;
         //this.userDetailsRepository = userDetailsRepository;
         this.userSubjectMapperDetails = userSubjectMapperDetails;
     }
@@ -58,5 +63,6 @@ public class UserSubjectService {
             throw new NoSuchElementException(String.valueOf(id));
         }
     }
+
 
 }
