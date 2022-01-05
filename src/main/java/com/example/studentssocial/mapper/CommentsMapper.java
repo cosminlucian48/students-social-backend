@@ -48,6 +48,7 @@ public class CommentsMapper {
         commentsDto.setId(comments.getId());
         commentsDto.setCommentsDate(comments.getCommentsDate());
         commentsDto.setText(comments.getText());
+        commentsDto.setEmail(comments.getUser().getEmail());
 
         return commentsDto;
     }

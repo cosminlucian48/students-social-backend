@@ -3,6 +3,7 @@ package com.example.studentssocial.endpoint;
 import com.example.studentssocial.constants.SecurityConstant;
 import com.example.studentssocial.dto.UserDto;
 import com.example.studentssocial.entity.User;
+import com.example.studentssocial.enums.UserType;
 import com.example.studentssocial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,11 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping(value="/user-type")
+    public List<User> getUsersByUserType(@RequestParam String userType) {
+        return userService.getUserByUserType(userType);
     }
 
     @PostMapping(value = "/login")

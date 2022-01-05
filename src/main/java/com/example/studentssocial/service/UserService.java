@@ -55,6 +55,12 @@ public class UserService {
         return users;
     }
 
+    public List<User> getUserByUserType(String userType){
+        List<User> users = new ArrayList<>();
+        userRepository.findAllByAuthorities(userType).iterator().forEachRemaining(users::add);
+        return users;
+    }
+
 
     public UserDto registerUser(UserDto userDto) {
         if (userAlreadyExists(userDto.getEmail())) {
@@ -149,6 +155,17 @@ public class UserService {
             throw new NoSuchElementException(String.valueOf(user));
         }
     }
+
+//    public User updateUser(Long id, User user) {
+//
+//        Optional<User> optionalUser = userRepository.findById(id);
+//        if (optionalUser.isPresent()) {
+//            user.setId(id);
+//            return userRepository.save(user);
+//        } else {
+//            throw new NoSuchElementException(String.valueOf(user));
+//        }
+//    }
 
     public List<User> getUsersBySubjectId(Long subjectId)
     {

@@ -10,6 +10,7 @@ public class CommentsDto {
     private Long id;
     private Date commentsDate;
     private String text;
+    private String email;
     private long postId;
     private long userId;
 }
