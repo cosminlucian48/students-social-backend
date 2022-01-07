@@ -4,6 +4,7 @@ package com.example.studentssocial.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,6 +20,12 @@ public class Subject {
     @JoinColumn
     @ManyToOne()
     private User user;
+
+//    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+//    private List<Post> posts;
+//
+//    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+//    private List<UserSubject> userSubjects;
 
 
 }

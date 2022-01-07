@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,4 +27,6 @@ public class Post {
     private Date postDate;
     @Column (name = "isSticky")
     private Boolean isSticky;
+//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+//    private List<Comments> comments;
 }

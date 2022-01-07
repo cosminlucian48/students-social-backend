@@ -14,12 +14,15 @@ public class UserSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @JoinColumn
     @ManyToOne()
     private User user;
+
     @JoinColumn
     @ManyToOne()
     private Subject subject;
+
     @Column(name = "registrationDate")
     private Date registrationDate;
 

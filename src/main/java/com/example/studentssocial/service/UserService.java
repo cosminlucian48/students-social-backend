@@ -57,7 +57,8 @@ public class UserService {
 
     public List<User> getUserByUserType(String userType){
         List<User> users = new ArrayList<>();
-        userRepository.findAllByAuthorities(userType).iterator().forEachRemaining(users::add);
+        userRepository.findUsersByAuthorities(userType).iterator().forEachRemaining(users::add);
+//        userRepository.findAllByAuthorities(userType).iterator().forEachRemaining(users::add);
         return users;
     }
 
@@ -80,7 +81,7 @@ public class UserService {
 
     private UserDto parseAndCreateUser(UserDto userDto, UserType userType) {
         User user = userMapper.mapUserDtoToUser(userDto);
-        user.setAuthorities(ApplicationUtil.fromListToString(getAutoritiesByUserType(userType)));
+        user.setAuthorities(getAutoritiesByUserType(userType));
 
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 
@@ -88,16 +89,16 @@ public class UserService {
         return userMapper.mapUserToUserDto(savedUser);
     }
 
-    private List<String> getAutoritiesByUserType(UserType userType) {
+    private String getAutoritiesByUserType(UserType userType) {
         switch (userType) {
             case USER:
-                return Arrays.asList(RoleType.USER.toString());
+                return RoleType.USER.toString();
             case MODERATOR:
-                return Arrays.asList(RoleType.MODERATOR.toString());
+                return RoleType.MODERATOR.toString();
             case ADMIN:
-                return Arrays.asList(RoleType.ADMIN.toString());
+                return RoleType.ADMIN.toString();
         }
-        return new ArrayList<>();
+        return "";
     }
 
 
@@ -177,6 +178,13 @@ public class UserService {
             users.add(this.getUserById(userSubject.getUser().getId()));
         }
         return users;
+    }
+
+    public UserDto changeUserPassword(String password, String email){
+        User user = userRepository.findUserByEmail(email).get(0);
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        userRepository.save(user);
+        return userMapper.mapUserToUserDto(user);
     }
 
 

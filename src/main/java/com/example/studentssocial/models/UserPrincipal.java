@@ -22,7 +22,7 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String authorities= user.getAuthorities();
         if(authorities!=null){
-            return Arrays.asList(authorities.split(",")).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            return Arrays.asList(new SimpleGrantedAuthority(authorities));
         }
         return new ArrayList<>();
     }

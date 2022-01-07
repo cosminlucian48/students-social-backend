@@ -79,6 +79,10 @@ public class UserController {
 
         return userService.updateUser(id, user);
     }
+    @PutMapping("/new-password")
+    public UserDto changeUserPassword(@RequestBody UserDto userDto){
+        return userService.changeUserPassword(userDto.getPassword(),userDto.getEmail());
+    }
 }
 
 

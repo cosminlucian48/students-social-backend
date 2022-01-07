@@ -39,7 +39,6 @@ public class UserSettingsService {
             auxUserSubject.setRegistrationDate(new Date());
             userSubjectRepository.save(auxUserSubject);
 
-
         }
     }
 
