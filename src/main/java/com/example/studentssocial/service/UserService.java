@@ -67,7 +67,14 @@ public class UserService {
         if (userAlreadyExists(userDto.getEmail())) {
             throw new UserAlreadyExistsExceptions("User already exists!");
         }
-        return parseAndCreateUser(userDto, UserType.USER);
+        if(userDto.getAuthorities().equals( UserType.USER.toString())) {
+            return parseAndCreateUser(userDto, UserType.USER);
+        } else if(userDto.getAuthorities().equals(UserType.ADMIN.toString())) {
+            return parseAndCreateUser(userDto, UserType.ADMIN);
+        } else {
+            return parseAndCreateUser(userDto, UserType.MODERATOR);
+        }
+
     }
 
 //    public UserDto registerUser(UserDto userDto) {
