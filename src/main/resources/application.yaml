@@ -22,5 +22,16 @@ spring:
 #     http://localhost:8080/h2-console-students
 #security:
 #
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smpt:
+          auth: true
+          starttls:
+            enable: true
 
 
