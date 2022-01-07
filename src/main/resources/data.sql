@@ -41,42 +41,42 @@ values ('101', '2021-08-23T18:25:43.511Z', '101', '101'),
        ('114', '2021-12-09T19:25:43.511Z', '104', '106'),
        ('115', '2021-12-10T19:25:43.511Z', '105', '106');
 
-insert into post(id, is_Sticky, post_Date, text, title, subject_Id, user_Id)
+insert into post(id, is_Sticky, post_Date, text, title, subject_Id, user_Id, post_Type)
 values ('101', 'true', '2021-08-25T18:25:43.511Z',
         'Importance of functions on the real line, overview - reviewing a mapping of a set f from X to Y',
-        'Calculus 1 - Introduction', '101', '101'),
+        'Calculus 1 - Introduction', '101', '101','USER'),
        ('102', 'false', '2021-08-30T18:25:43.511Z',
         'Overview of first and second grade polynomials, with a short introduction to trigonometric and exponential functions',
-        'Calculus 1 - Polynomials, functions', '101', '102'),
+        'Calculus 1 - Polynomials, functions', '101', '102','USER'),
        ('103', 'true', '2021-10-30T18:25:43.511Z',
         'Importance of differential calculus in 3-D models, introduction to descriptive geometry',
-        'Descriptive Geometry - Firs steps', '102', '104'),
+        'Descriptive Geometry - Firs steps', '102', '104','USER'),
        ('104', 'false', '2021-11-02T18:25:43.511Z',
         'Golden rule of mechanics - Whatever you lose in power you gain in displacement, and the use of it',
-        'Golden rule of Mechanics', '103', '105'),
+        'Golden rule of Mechanics', '103', '105','USER'),
        ('105', 'false', '2021-11-08T18:25:43.511Z',
         'Right hand rule - applications in day-to-day life and the usefulness of basic physics equations',
-        'Right hand rule', '103', '105'),
+        'Right hand rule', '103', '105','USER'),
        ('106', 'true', '2021-11-09T18:25:43.511Z', 'OOP - Objects and Classes, featuring Andrei Paun, the god of C++',
-        'Introduction to OOP', '104', '106'),
+        'Introduction to OOP', '104', '106','USER'),
        ('107', 'false', '2021-11-10T18:25:43.511Z',
         'Installing a python interpreter and learning basic funtions of the OpenCV library',
-        'Short tutorial for Python', '105', '102');
+        'Short tutorial for Python', '105', '102','USER');
 
-insert into comments(id, comments_Date, text, post_Id, user_Id)
-values ('101', '2021-08-25T19:21:43.511Z', 'Great lecture.', '101', '103'),
-       ('102', '2021-08-25T21:21:43.511Z', 'Thanks. Hoped you would like it!', '101', '101'),
-       ('103', '2021-08-30T19:25:43.511Z', 'Exponential functions are very interesting.', '102', '101'),
-       ('104', '2021-11-01T12:25:43.511Z', 'Love the practical application of this subject.', '103', '105'),
-       ('105', '2021-11-02T12:25:43.511Z', 'Yeah, wish we could get a second semester of this stuff.', '103', '104'),
+insert into comments(id, comments_Date, text, post_Id, user_Id,comment_type)
+values ('101', '2021-08-25T19:21:43.511Z', 'Great lecture.', '101', '103','USER'),
+       ('102', '2021-08-25T21:21:43.511Z', 'Thanks. Hoped you would like it!', '101', '101','USER'),
+       ('103', '2021-08-30T19:25:43.511Z', 'Exponential functions are very interesting.', '102', '101','USER'),
+       ('104', '2021-11-01T12:25:43.511Z', 'Love the practical application of this subject.', '103', '105','USER'),
+       ('105', '2021-11-02T12:25:43.511Z', 'Yeah, wish we could get a second semester of this stuff.', '103', '104','USER'),
        ('106', '2021-11-03T09:25:43.511Z', 'A lot of people do not understand the golden role, which is sad.', '104',
-        '106'),
+        '106','USER'),
        ('107', '2021-11-09T11:21:43.511Z',
         'In our country we call this the drill rule, because it follows the rotation of a drill, fun stuff.', '105',
-        '104'),
-       ('108', '2021-11-09T21:25:43.511Z', 'Surely wont mind more lectures from this proffesor!', '106', '102'),
-       ('109', '2021-11-09T22:25:43.511Z', 'I heard he only gives out high grades.', '106', '101'),
-       ('110', '2021-11-10T18:25:43.511Z', 'I love python!', '107', '106');
+        '104','USER'),
+       ('108', '2021-11-09T21:25:43.511Z', 'Surely wont mind more lectures from this proffesor!', '106', '102','USER'),
+       ('109', '2021-11-09T22:25:43.511Z', 'I heard he only gives out high grades.', '106', '101','USER'),
+       ('110', '2021-11-10T18:25:43.511Z', 'I love python!', '107', '106','USER');
 
 
 /*

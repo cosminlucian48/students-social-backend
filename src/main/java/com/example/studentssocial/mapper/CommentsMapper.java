@@ -33,6 +33,7 @@ public class CommentsMapper {
         comments.setId(commentsDto.getId());
         comments.setCommentsDate(commentsDto.getCommentsDate());
         comments.setText(commentsDto.getText());
+        comments.setCommentType(commentsDto.getCommentType());
 
 
         return comments;
@@ -49,6 +50,7 @@ public class CommentsMapper {
         commentsDto.setCommentsDate(comments.getCommentsDate());
         commentsDto.setText(comments.getText());
         commentsDto.setEmail(comments.getUser().getEmail());
+        commentsDto.setCommentType(comments.getCommentType());
 
         return commentsDto;
     }

@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -32,6 +30,19 @@ public class PostService {
 //        postRepository.findAllByOrderByPostDateDesc().iterator().forEachRemaining(posts::add);
         posts = postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 //        postRepository.findAll().iterator().forEachRemaining(posts::add);
+
+        posts.sort(new Comparator<Post>() {
+            @Override
+            public int compare(Post o1, Post o2) {
+                if (o1.getPostDate().compareTo(o2.getPostDate()) < 0) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        });
+
+
         return posts;
     }
 
@@ -47,8 +58,7 @@ public class PostService {
         }
     }
 
-    public PostDto updatePost(Post postDto)
-    {
+    public PostDto updatePost(Post postDto) {
         Post post = postRepository.findById(postDto.getId()).get();
         post.setPostDate(postDto.getPostDate());
         post.setTitle(postDto.getTitle());
@@ -61,28 +71,61 @@ public class PostService {
 
 
     }
-    public PostDto savePost(PostDto postDto)
-    {
+
+    public PostDto savePost(PostDto postDto) {
         List<User> users = userService.getUsersByEmail(postDto.getEmail());
         postDto.setUserId(users.get(0).getId());
+        postDto.setPostType(users.get(0).getAuthorities());
         Post post = postMapper.mapPostDtoToPost(postDto);
 
         Post savedPost = postRepository.save(post);
         return postMapper.mapPostToPostDto(savedPost);
     }
 
-    public List<PostDto> getPostsBySubjectId(Long subjectId){
+    public List<PostDto> getPostsBySubjectId(Long subjectId) {
         List<Post> allPosts = new ArrayList<>();
         postRepository.findAll().iterator().forEachRemaining(allPosts::add);
         List<PostDto> finalPosts = new ArrayList<>();
-        for(Post post: allPosts){
-            if(post.getSubject().getId() == subjectId){
+        for (Post post : allPosts) {
+            if (post.getSubject().getId() == subjectId) {
                 User user = userService.getUserById(post.getUser().getId());
                 PostDto postDto = postMapper.mapPostToPostDto(post);
                 postDto.setEmail(user.getEmail());
                 finalPosts.add(postDto);
             }
         }
+//        finalPosts.sort(new Comparator<Post>() {
+//            @Override
+//            public int compare(Post o1, Post o2) {
+//                if(o1.getPostDate().compareTo(o2.getPostDate())<0){
+//                    return 0;
+//                }else{
+//                    return 1;
+//                }
+//            }
+//        });
+
+//        finalPosts.sort(new Comparator<PostDto>() {
+//            @Override
+//            public int compare(PostDto o1, PostDto o2) {
+//                if (o1.getPostDate().compareTo(o2.getPostDate()) < 0) {
+//                    return 0;
+//                } else {
+//                    return 1;
+//                }
+//            }
+//        });
+
+        Collections.sort(finalPosts, new Comparator<PostDto>() {
+            @Override
+            public int compare(PostDto o1, PostDto o2) {
+                if (o1.getPostDate().before(o2.getPostDate())) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        });
         return finalPosts;
     }
 

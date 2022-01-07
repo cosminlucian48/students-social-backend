@@ -30,6 +30,7 @@ public class PostMapper {
         post.setIsSticky(postDto.getIsSticky());
         post.setText(postDto.getText());
         post.setTitle(postDto.getTitle());
+        post.setPostType(postDto.getPostType());
 
         return post;
 
@@ -47,6 +48,7 @@ public class PostMapper {
         postDto.setIsSticky(post.getIsSticky());
         postDto.setText(post.getText());
         postDto.setTitle(post.getTitle());
+        postDto.setPostType(post.getPostType());
 
         return postDto;
     }

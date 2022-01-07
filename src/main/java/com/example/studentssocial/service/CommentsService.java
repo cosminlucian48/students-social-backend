@@ -1,14 +1,11 @@
 package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.CommentsDto;
-import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Comments;
-import com.example.studentssocial.entity.Post;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.mapper.CommentsMapper;
-import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.repository.CommentsRepository;
-import com.example.studentssocial.repository.PostRepository;
+import com.example.studentssocial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +17,12 @@ import java.util.Optional;
 public class CommentsService {
 
     private final CommentsRepository commentsRepository;
+    private final UserRepository userRepository;
     private final CommentsMapper commentsMapper;
 
     @Autowired
-    public CommentsService(CommentsRepository commentsRepository, CommentsMapper commentsMapper) {
+    public CommentsService(CommentsRepository commentsRepository, UserRepository userRepository, CommentsMapper commentsMapper) {
+        this.userRepository = userRepository;
         this.commentsMapper = commentsMapper;
         this.commentsRepository = commentsRepository;
     }
@@ -72,6 +71,11 @@ public class CommentsService {
     public CommentsDto saveComments(CommentsDto commentsDto)
     {
         Comments comments = commentsMapper.mapCommentsDtoToComments(commentsDto);
+
+        Optional<User> user = userRepository.findById(commentsDto.getUserId());
+        if(user.isPresent()){
+            comments.setCommentType(user.get().getAuthorities());
+        }
         Comments savedComments = commentsRepository.save(comments);
         return commentsMapper.mapCommentsToCommentsDto(savedComments);
     }

@@ -22,5 +22,7 @@ public class Comments {
     @JoinColumn
     @ManyToOne()
     private User user;
+    @Column(name="commentType")
+    private String commentType;
 
 }

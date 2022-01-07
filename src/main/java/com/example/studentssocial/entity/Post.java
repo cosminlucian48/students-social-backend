@@ -27,6 +27,8 @@ public class Post {
     private Date postDate;
     @Column (name = "isSticky")
     private Boolean isSticky;
+    @Column (name = "postType")
+    private String postType;
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 //    private List<Comments> comments;
 }
