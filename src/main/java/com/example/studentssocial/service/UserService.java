@@ -7,11 +7,12 @@ import com.example.studentssocial.enums.UserType;
 import com.example.studentssocial.entity.UserSubject;
 import com.example.studentssocial.exceptions.domain.UserAlreadyExistsExceptions;
 import com.example.studentssocial.exceptions.domain.UserDoesNotExists;
+import com.example.studentssocial.mail.EmailService;
 import com.example.studentssocial.mapper.UserMapper;
 import com.example.studentssocial.repository.UserRepository;
-import com.example.studentssocial.util.ApplicationUtil;
 import com.example.studentssocial.repository.UserSubjectRepository;
 import com.example.studentssocial.util.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,9 @@ import java.util.*;
 //@RequiredArgsConstructor //constructor cu parametrii final
 @Service
 public class UserService {
+
+    @Autowired
+    private final EmailService emailService;
 
     private final UserRepository userRepository;
     private final UserSubjectRepository userSubjectRepository;
@@ -38,7 +42,9 @@ public class UserService {
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserSubjectRepository userSubjectRepository, UserMapper userMapperDetails, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
+    public UserService(EmailService emailService, UserRepository userRepository, UserSubjectRepository userSubjectRepository, UserMapper userMapperDetails, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
+        this.emailService = emailService;
+
         this.userRepository = userRepository;
         this.userSubjectRepository = userSubjectRepository;
         this.userMapper = userMapperDetails;
@@ -55,7 +61,7 @@ public class UserService {
         return users;
     }
 
-    public List<User> getUserByUserType(String userType){
+    public List<User> getUserByUserType(String userType) {
         List<User> users = new ArrayList<>();
         userRepository.findUsersByAuthorities(userType).iterator().forEachRemaining(users::add);
 //        userRepository.findAllByAuthorities(userType).iterator().forEachRemaining(users::add);
@@ -67,9 +73,9 @@ public class UserService {
         if (userAlreadyExists(userDto.getEmail())) {
             throw new UserAlreadyExistsExceptions("User already exists!");
         }
-        if(userDto.getAuthorities().equals( UserType.USER.toString())) {
+        if (userDto.getAuthorities().equals(UserType.USER.toString())) {
             return parseAndCreateUser(userDto, UserType.USER);
-        } else if(userDto.getAuthorities().equals(UserType.ADMIN.toString())) {
+        } else if (userDto.getAuthorities().equals(UserType.ADMIN.toString())) {
             return parseAndCreateUser(userDto, UserType.ADMIN);
         } else {
             return parseAndCreateUser(userDto, UserType.MODERATOR);
@@ -93,6 +99,14 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 
         User savedUser = userRepository.save(user);
+//        emailSender.sendSimpleMail("Registration Complete",savedUser.getEmail() + " registered succesfully!"
+//                ,savedUser);
+
+//        emailSender.sendSimpleMail("test","cv",savedUser);
+
+        Thread thread = new Thread(() -> emailService.registerHtmlMail(savedUser));
+        thread.start();
+
         return userMapper.mapUserToUserDto(savedUser);
     }
 
@@ -107,7 +121,6 @@ public class UserService {
         }
         return "";
     }
-
 
 
     public String loginUserAndReturnJWT(UserDto userDto) {
@@ -137,9 +150,10 @@ public class UserService {
         List<User> users = userRepository.findUserByEmail(userEmail);
         return users;
     }
+
     public UserDto getUserByEmail(String userEmail) {
         List<User> users = userRepository.findUserByEmail(userEmail);
-        if(users.size()==1){
+        if (users.size() == 1) {
             return userMapper.mapUserToUserDto(users.get(0));
         }
         return null;
@@ -175,25 +189,22 @@ public class UserService {
 //        }
 //    }
 
-    public List<User> getUsersBySubjectId(Long subjectId)
-    {
+    public List<User> getUsersBySubjectId(Long subjectId) {
         List<UserSubject> usersSubject = new ArrayList<>();
         List<User> users = new ArrayList<>();
         userSubjectRepository.findAllBySubjectId(subjectId).iterator().forEachRemaining(usersSubject::add);
-        for (UserSubject userSubject : usersSubject)
-        {
+        for (UserSubject userSubject : usersSubject) {
             users.add(this.getUserById(userSubject.getUser().getId()));
         }
         return users;
     }
 
-    public UserDto changeUserPassword(String password, String email){
+    public UserDto changeUserPassword(String password, String email) {
         User user = userRepository.findUserByEmail(email).get(0);
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
         return userMapper.mapUserToUserDto(user);
     }
-
 
 
 }
