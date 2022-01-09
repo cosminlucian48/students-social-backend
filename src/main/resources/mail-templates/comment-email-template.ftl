@@ -1,4 +1,3 @@
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,25 +12,21 @@
                 <tr>
                     <td style="background-color: whitesmoke; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
 
-                        <div style="font-size: 48px; color:rgba(0,0,0,0.45); text-align: center;">
-                            <b>Welcome to Students Social!</b>
+                        <div style="font-size: 48px; color:rgba(0,0,0,0.45);">
+                            <b> Students Social </b>
                         </div>
 
                         <div style="font-size: 24px; color: #552800;">
-                            <br> We are happy to finally have you in our big classroom full of curious students. <br>
+                            <br> ${firstName}, your post has a new comment. <br>
                         </div>
                         <br><br>
                         <div>
                             <div>
-                                <b style="font-size:18px">Your information:</b><br>
-                                <p>Email: ${email}</p>
-                                <p>Last name: ${lastName}</p>
-                                <p>First name: ${firstName}</p>
-                                <p>University: ${university}</p>
-                                <p>Faculty: ${faculty}</p>
+                                <b style="font-size:18px"> The new comment: </b><br>
+
                             </div>
                             <br><br> <br>
-                            <br> <br> Enjoy your time with us ${firstName}<br>
+                            <br> <br> We are glad to help you. <br>
                             <br>
                         </div>
                     </td>
