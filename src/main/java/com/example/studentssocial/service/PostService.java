@@ -2,10 +2,10 @@ package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Post;
+import com.example.studentssocial.entity.Subject;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.repository.PostRepository;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,13 @@ import java.util.*;
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private final CommentsService commentsService;
     private final PostMapper postMapper;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserService userService, PostMapper postMapper) {
+    public PostService(PostRepository postRepository, UserService userService, CommentsService commentsService, PostMapper postMapper) {
         this.userService = userService;
+        this.commentsService = commentsService;
         this.postMapper = postMapper;
         this.postRepository = postRepository;
     }
@@ -54,6 +56,7 @@ public class PostService {
     public void deletePost(Long id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
+            commentsService.deleteCommentsWithPostId(id);
             postRepository.delete(post.get());
         }
     }
@@ -94,27 +97,6 @@ public class PostService {
                 finalPosts.add(postDto);
             }
         }
-//        finalPosts.sort(new Comparator<Post>() {
-//            @Override
-//            public int compare(Post o1, Post o2) {
-//                if(o1.getPostDate().compareTo(o2.getPostDate())<0){
-//                    return 0;
-//                }else{
-//                    return 1;
-//                }
-//            }
-//        });
-
-//        finalPosts.sort(new Comparator<PostDto>() {
-//            @Override
-//            public int compare(PostDto o1, PostDto o2) {
-//                if (o1.getPostDate().compareTo(o2.getPostDate()) < 0) {
-//                    return 0;
-//                } else {
-//                    return 1;
-//                }
-//            }
-//        });
 
         Collections.sort(finalPosts, new Comparator<PostDto>() {
             @Override
@@ -133,4 +115,13 @@ public class PostService {
 //        Post post = postRepository.findById(postDto.getId()).get();
 //        return postMapper.mapPostToPostDto(post);
 //    }
+
+    public void deletePostWithSubjectId(Long subjectId){
+
+        List<Post> posts = postRepository.findAllBySubjectId(subjectId);
+        for (Post post:posts){
+            this.commentsService.deleteCommentsWithPostId(post.getId());
+        }
+        postRepository.deleteAllBySubjectId(subjectId);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.UserDto;
+import com.example.studentssocial.endpoint.SubjectController;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.enums.RoleType;
 import com.example.studentssocial.enums.UserType;
@@ -13,6 +14,8 @@ import com.example.studentssocial.repository.UserRepository;
 import com.example.studentssocial.repository.UserSubjectRepository;
 import com.example.studentssocial.util.JwtUtil;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +23,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.util.*;
+import java.util.List;
 
 //@RequiredArgsConstructor //constructor cu parametrii final
 @Service
@@ -91,8 +98,9 @@ public class UserService {
 //
 //    }
 
-
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
     private UserDto parseAndCreateUser(UserDto userDto, UserType userType) {
+        logger.info("test {}",userDto.getProfileImage());
         User user = userMapper.mapUserDtoToUser(userDto);
         user.setAuthorities(getAutoritiesByUserType(userType));
 

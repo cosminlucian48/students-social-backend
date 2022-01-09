@@ -37,7 +37,7 @@ public class PostController {
     public Optional<Post> getPost(@PathVariable("id") Long id) { return postService.getPost(id); }
 
     @DeleteMapping("/{id}")
-    public void deleteSubject(@PathVariable Long id) {
+    public void deletePost(@PathVariable Long id) {
         logger.info("Deleted subject with {}", id);
         postService.deletePost(id);
     }

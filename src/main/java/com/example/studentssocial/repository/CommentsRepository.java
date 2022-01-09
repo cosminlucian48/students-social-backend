@@ -13,5 +13,6 @@ import java.util.Optional;
 public interface CommentsRepository extends CrudRepository<Comments,Long> {
 
     Optional<Comments> findById(Long id);
-
+    void deleteAllByPostId(Long postId);
+//    List<Comments> findAllByPostId(Long )
 }

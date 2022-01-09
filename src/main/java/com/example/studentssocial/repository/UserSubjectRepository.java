@@ -19,5 +19,6 @@ public interface UserSubjectRepository extends CrudRepository<UserSubject,Long> 
         List<UserSubject> findAllByUserId(Long id);
         List<UserSubject> findAllByUserIdAndAndSubjectId(Long userId, Long subjectId);
         void deleteAllByUserId(Long userId);
+        void deleteAllBySubjectId(Long subjectId);
 }
 

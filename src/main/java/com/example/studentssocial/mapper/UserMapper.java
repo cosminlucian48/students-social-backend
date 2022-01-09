@@ -16,7 +16,7 @@ public class UserMapper {
         user.setFaculty(userDto.getFaculty());
         user.setRegistrationDate(userDto.getRegistrationDate());
         user.setAuthorities(userDto.getAuthorities());
-
+        user.setProfileImage(userDto.getProfileImage());
         return user;
     }
 
@@ -29,7 +29,7 @@ public class UserMapper {
         userDto.setRegistrationDate(user.getRegistrationDate());
         userDto.setId(user.getId());
         userDto.setAuthorities(user.getAuthorities());
-
+        userDto.setProfileImage(user.getProfileImage());
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         return userDto;

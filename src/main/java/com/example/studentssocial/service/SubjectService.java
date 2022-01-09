@@ -19,13 +19,17 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
+    private final PostService postService;
+    private final UserSubjectService userSubjectService;
 
     private final SubjectMapper subjectMapper;
 
     @Autowired
-    public SubjectService(SubjectRepository subjectRepository, UserRepository userRepository, SubjectMapper subjectMapper) {
+    public SubjectService(SubjectRepository subjectRepository, UserRepository userRepository, PostService postService, UserSubjectService userSubjectService, SubjectMapper subjectMapper) {
         this.subjectRepository = subjectRepository;
         this.userRepository = userRepository;
+        this.postService = postService;
+        this.userSubjectService = userSubjectService;
         this.subjectMapper = subjectMapper;
     }
 
@@ -59,6 +63,8 @@ public class SubjectService {
     public void deleteSubject(Long id) {
         Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()) {
+            postService.deletePostWithSubjectId(id);
+            userSubjectService.deleteUserSubjectWithSubjectId(id);
             subjectRepository.delete(subject.get());
         }
     }

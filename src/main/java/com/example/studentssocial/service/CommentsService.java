@@ -80,5 +80,9 @@ public class CommentsService {
         return commentsMapper.mapCommentsToCommentsDto(savedComments);
     }
 
+    public void deleteCommentsWithPostId(Long postId){
+        commentsRepository.deleteAllByPostId(postId);
+    }
+
 
 }

@@ -15,4 +15,5 @@ public class UserDto {
     private Date registrationDate;
     private String authorities;
     private String faculty;
+    private String profileImage;
 }

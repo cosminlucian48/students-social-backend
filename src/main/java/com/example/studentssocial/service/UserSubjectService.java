@@ -64,5 +64,9 @@ public class UserSubjectService {
         }
     }
 
+    public void deleteUserSubjectWithSubjectId(Long subjectId){
+        userSubjectRepository.deleteAllBySubjectId(subjectId);
+    }
+
 
 }
