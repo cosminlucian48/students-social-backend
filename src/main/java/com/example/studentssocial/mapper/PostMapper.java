@@ -49,6 +49,7 @@ public class PostMapper {
         postDto.setText(post.getText());
         postDto.setTitle(post.getTitle());
         postDto.setPostType(post.getPostType());
+        postDto.setProfileImage(post.getUser().getProfileImage());
 
         return postDto;
     }

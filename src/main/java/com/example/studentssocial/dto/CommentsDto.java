@@ -14,4 +14,5 @@ public class CommentsDto {
     private long postId;
     private long userId;
     private String commentType;
+    private String profileImage;
 }
