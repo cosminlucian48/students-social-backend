@@ -36,6 +36,7 @@ public class CommentsMapper {
         comments.setCommentType(commentsDto.getCommentType());
 
 
+
         return comments;
     }
 
@@ -51,6 +52,7 @@ public class CommentsMapper {
         commentsDto.setText(comments.getText());
         commentsDto.setEmail(comments.getUser().getEmail());
         commentsDto.setCommentType(comments.getCommentType());
+        commentsDto.setProfileImage(comments.getUser().getProfileImage());
 
         return commentsDto;
     }

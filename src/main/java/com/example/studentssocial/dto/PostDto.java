@@ -15,4 +15,5 @@ public class PostDto {
     private String text;
     private Boolean isSticky;
     private String postType;
+    private String profileImage;
 }
