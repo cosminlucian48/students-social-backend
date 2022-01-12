@@ -35,6 +35,9 @@ public class UserMapper {
         userDto.setProfileImage(user.getProfileImage());
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
+        userDto.setTagEmail(user.getTagEmail());
+        userDto.setPostEmail(user.getPostEmail());
+        userDto.setCommentEmail(user.getCommentEmail());
         return userDto;
     }
 }

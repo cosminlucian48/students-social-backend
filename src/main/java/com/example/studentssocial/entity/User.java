@@ -32,7 +32,7 @@ public class User {
     @Column(name = "authorities")
     private String authorities;
     @Lob
-    @Column(name = "profileImage",columnDefinition = "varchar(1000000) DEFAULT '" + SecurityConstant.DEFAULT_PROFILE_IMAGE+"'" )
+    @Column(name = "profileImage",columnDefinition = "varchar(10000000) DEFAULT '" + SecurityConstant.DEFAULT_PROFILE_IMAGE+"'" )
     private String profileImage;
 
     @Column(name = "tagEmail",columnDefinition="BOOLEAN DEFAULT true")
