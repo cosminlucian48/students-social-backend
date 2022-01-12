@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Student Social</title>
 </head>
 
@@ -17,13 +17,15 @@
                         </div>
 
                         <div style="font-size: 24px; color: #552800;">
-                            <br> ${firstName}, a new post is waiting for you. <br>
+                            <br> ${userEmail}, a new post is waiting for you. <br>
                         </div>
                         <br><br>
                         <div>
                             <div>
-                                <b style="font-size:18px">The new post:</b><br>
-
+                                <b style="font-size:18px">The new post in ${subjectName}, by ${taggerEmail} is:</b><br>
+                                <div>
+                                    ${text}
+                                </div>
                             </div>
                             <br><br> <br>
                             <br> <br> We are glad to help you. <br>
@@ -31,7 +33,8 @@
                         </div>
                     </td>
                 </tr>
-            </table> <br> <br></td>
+            </table>
+            <br> <br></td>
     </tr>
 </table>
 </body>

@@ -1,14 +1,16 @@
 package com.example.studentssocial.service;
 
+import com.example.studentssocial.constants.SecurityConstant;
 import com.example.studentssocial.dto.UserDto;
-import com.example.studentssocial.endpoint.SubjectController;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.enums.RoleType;
+import com.example.studentssocial.enums.UserEmailOptions;
 import com.example.studentssocial.enums.UserType;
 import com.example.studentssocial.entity.UserSubject;
 import com.example.studentssocial.exceptions.domain.UserAlreadyExistsExceptions;
 import com.example.studentssocial.exceptions.domain.UserDoesNotExists;
 import com.example.studentssocial.mail.EmailService;
+import com.example.studentssocial.mapper.MessageMapper;
 import com.example.studentssocial.mapper.UserMapper;
 import com.example.studentssocial.repository.UserRepository;
 import com.example.studentssocial.repository.UserSubjectRepository;
@@ -23,9 +25,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.util.*;
 import java.util.List;
 
@@ -33,13 +32,13 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    private final EmailService emailService;
+    private final SendEmailService sendEmailService;
 
     private final UserRepository userRepository;
     private final UserSubjectRepository userSubjectRepository;
 
     private final UserMapper userMapper;
+    private final MessageMapper messageMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final AuthenticationManager authenticationManager;
@@ -49,14 +48,17 @@ public class UserService {
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public UserService(EmailService emailService, UserRepository userRepository, UserSubjectRepository userSubjectRepository, UserMapper userMapperDetails, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
-        this.emailService = emailService;
+    public UserService(SendEmailService sendEmailService1, UserRepository userRepository,
+                       UserSubjectRepository userSubjectRepository, UserMapper userMapperDetails,
+                       MessageMapper messageMapper, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager,
+                       MyUserDetailsService userDetailsService, JwtUtil jwtTokenUtil) {
+        this.messageMapper = messageMapper;
+        this.sendEmailService = sendEmailService1;
 
         this.userRepository = userRepository;
         this.userSubjectRepository = userSubjectRepository;
         this.userMapper = userMapperDetails;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -90,30 +92,25 @@ public class UserService {
 
     }
 
-//    public UserDto registerUser(UserDto userDto) {
-//        if (userAlreadyExists(userDto.getEmail())) {
-//            throw new UserAlreadyExistsExceptions("User already exists!");
-//        }
-//        return parseAndCreateUser(userDto, UserType.USER);
-//
-//    }
-
     private Logger logger = LoggerFactory.getLogger(UserService.class);
+
     private UserDto parseAndCreateUser(UserDto userDto, UserType userType) {
-        logger.info("test {}",userDto.getProfileImage());
+        logger.info("test {}", userDto.getProfileImage());
         User user = userMapper.mapUserDtoToUser(userDto);
         user.setAuthorities(getAutoritiesByUserType(userType));
 
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-
+        if (user.getProfileImage().equals("")) {
+            user.setProfileImage(SecurityConstant.DEFAULT_PROFILE_IMAGE);
+        }
+        user.setCommentEmail(Boolean.TRUE);
+        user.setTagEmail(Boolean.TRUE);
+        user.setPostEmail(Boolean.TRUE);
         User savedUser = userRepository.save(user);
-//        emailSender.sendSimpleMail("Registration Complete",savedUser.getEmail() + " registered succesfully!"
-//                ,savedUser);
 
-//        emailSender.sendSimpleMail("test","cv",savedUser);
-
-        Thread thread = new Thread(() -> emailService.registerHtmlMail(savedUser));
+        Thread thread = new Thread(() -> sendEmailService.verifyAndSendEmail(messageMapper.fromUserToMessageDto(savedUser), UserEmailOptions.REGISTER));
         thread.start();
+//        this.emailThreadService.sendEmailToRegisteredUser(user);
 
         return userMapper.mapUserToUserDto(savedUser);
     }
@@ -142,7 +139,6 @@ public class UserService {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return jwt;
-//        return ResponseEntity.ok(new AuthenticationResponse(jwt));
 
     }
 
@@ -186,16 +182,6 @@ public class UserService {
         }
     }
 
-//    public User updateUser(Long id, User user) {
-//
-//        Optional<User> optionalUser = userRepository.findById(id);
-//        if (optionalUser.isPresent()) {
-//            user.setId(id);
-//            return userRepository.save(user);
-//        } else {
-//            throw new NoSuchElementException(String.valueOf(user));
-//        }
-//    }
 
     public List<User> getUsersBySubjectId(Long subjectId) {
         List<UserSubject> usersSubject = new ArrayList<>();

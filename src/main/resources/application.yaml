@@ -2,7 +2,6 @@ server:
   port: 8080
 #    servlet:
 #        context-path: /students
-
 spring:
   datasource:
     url: jdbc:h2:mem:students
@@ -36,5 +35,6 @@ spring:
           auth: true
           starttls:
             enable: true
-
+tag:
+  delimitator: '#'
 

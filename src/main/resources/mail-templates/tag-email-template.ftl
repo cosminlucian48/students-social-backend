@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Student Social</title>
 </head>
 
@@ -17,15 +17,12 @@
                         </div>
 
                         <div style="font-size: 24px; color: #552800;">
-                            <br> ${userEmail}, a new comment is waiting for you. <br>
+                            <br>Hei ${userEmail},<br> ${taggerEmail} tagged you. <br>
                         </div>
                         <br><br>
                         <div>
                             <div>
-                                <b style="font-size:18px">The new comment in ${subjectName}, by ${taggerEmail} is:</b><br>
-                                <div>
-                                    Post Title:${postTitle} <br>
-                                </div>
+                                <b style="font-size:18px">The new ${textType} in ${subjectName}:</b><br>
                                 <div>
                                     ${text}
                                 </div>
@@ -36,8 +33,7 @@
                         </div>
                     </td>
                 </tr>
-            </table>
-            <br> <br></td>
+            </table> <br> <br></td>
     </tr>
 </table>
 </body>

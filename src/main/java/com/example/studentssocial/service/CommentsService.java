@@ -1,9 +1,12 @@
 package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.CommentsDto;
+import com.example.studentssocial.dto.MessageDto;
 import com.example.studentssocial.entity.Comments;
 import com.example.studentssocial.entity.User;
+import com.example.studentssocial.enums.UserEmailOptions;
 import com.example.studentssocial.mapper.CommentsMapper;
+import com.example.studentssocial.mapper.MessageMapper;
 import com.example.studentssocial.repository.CommentsRepository;
 import com.example.studentssocial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +20,18 @@ import java.util.Optional;
 public class CommentsService {
 
     private final CommentsRepository commentsRepository;
+    private final SendEmailService sendEmailService;
     private final UserRepository userRepository;
     private final CommentsMapper commentsMapper;
+    private final MessageMapper messageMapper;
 
     @Autowired
-    public CommentsService(CommentsRepository commentsRepository, UserRepository userRepository, CommentsMapper commentsMapper) {
+    public CommentsService(CommentsRepository commentsRepository, SendEmailService sendEmailService, UserRepository userRepository, CommentsMapper commentsMapper, MessageMapper messageMapper) {
+        this.sendEmailService = sendEmailService;
         this.userRepository = userRepository;
         this.commentsMapper = commentsMapper;
         this.commentsRepository = commentsRepository;
+        this.messageMapper = messageMapper;
     }
 
     public List<Comments> getAllComments() {
@@ -77,6 +84,10 @@ public class CommentsService {
             comments.setCommentType(user.get().getAuthorities());
         }
         Comments savedComments = commentsRepository.save(comments);
+
+        MessageDto messageDto = messageMapper.fromCommentDtoToMessageDto(commentsDto);
+        Thread thread = new Thread(() -> sendEmailService.verifyAndSendEmail(messageDto, UserEmailOptions.COMMENT));
+        thread.start();
         return commentsMapper.mapCommentsToCommentsDto(savedComments);
     }
 

@@ -24,7 +24,7 @@
                         <div>
                             <div>
                                 <b style="font-size:18px">Your information:</b><br>
-                                <p>Email: ${email}</p>
+                                <p>Email: ${userEmail}</p>
                                 <p>Last name: ${lastName}</p>
                                 <p>First name: ${firstName}</p>
                                 <p>University: ${university}</p>

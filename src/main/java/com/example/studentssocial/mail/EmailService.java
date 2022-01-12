@@ -1,11 +1,12 @@
 package com.example.studentssocial.mail;
 
+import com.example.studentssocial.dto.EmailFieldsDto;
 import com.example.studentssocial.entity.User;
+import com.example.studentssocial.repository.UserRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,40 +18,43 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    private final String ADMIN_EMAIL = "cosminserver1234@gmail.com";
 
-    @Autowired
-    private Configuration configuration;
+    private final JavaMailSender emailSender;
 
-//    public void sendSimpleMessage(
-//            String to, String subject, String text) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("noreply@baeldung.com");
-//        message.setTo(to);
-//        message.setSubject(subject);
-//        message.setText(text);
-//        emailSender.send(message);
-//    }
+    private final Configuration configuration;
 
-    public void registerHtmlMail(User user){
+    private final UserRepository userRepository;
+
+    public void sendEmail(String sendFrom, String sendTo, String mailBody, String title) {
         MimeMessage message = emailSender.createMimeMessage();
-        try{
+        try {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
-            Template t = configuration.getTemplate("register-email-template.ftl");
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t,user);
-            helper.setTo(user.getEmail());
-            helper.setSubject("Te ai inregistrat");
-            helper.setText(html,true);
-            helper.setFrom("cosminserver1234@gmail.com");
+            helper.setTo(sendTo);
+            helper.setSubject(title);
+            helper.setText(mailBody, true);
+            helper.setFrom(sendFrom);
             emailSender.send(message);
-
-
-        }catch (MessagingException | IOException | TemplateException e){
+        } catch (MessagingException e) {
 
         }
     }
+
+
+    public void sendRegisterEmail(User user) {
+        try {
+            Template t = configuration.getTemplate("register-email-template.ftl");
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, user);
+
+            this.sendEmail(ADMIN_EMAIL, user.getEmail(), html, "Te-ai inregistrat!");
+        } catch (IOException | TemplateException e) {
+
+        }
+    }
+
+
 }

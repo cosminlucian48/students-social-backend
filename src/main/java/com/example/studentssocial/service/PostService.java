@@ -1,9 +1,11 @@
 package com.example.studentssocial.service;
 
+import com.example.studentssocial.dto.MessageDto;
 import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Post;
-import com.example.studentssocial.entity.Subject;
 import com.example.studentssocial.entity.User;
+import com.example.studentssocial.enums.UserEmailOptions;
+import com.example.studentssocial.mapper.MessageMapper;
 import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +13,27 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private final ParseService parseService;
     private final CommentsService commentsService;
     private final PostMapper postMapper;
+    private final MessageMapper messageMapper;
+    private final SendEmailService sendEmailService;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserService userService, CommentsService commentsService, PostMapper postMapper) {
+    public PostService(PostRepository postRepository, UserService userService, ParseService parseService, CommentsService commentsService, PostMapper postMapper, MessageMapper messageMapper,  SendEmailService sendEmailService) {
         this.userService = userService;
+        this.parseService = parseService;
         this.commentsService = commentsService;
         this.postMapper = postMapper;
         this.postRepository = postRepository;
+        this.messageMapper = messageMapper;
+        this.sendEmailService = sendEmailService;
     }
 
     public List<Post> getAllPosts() {
@@ -82,6 +91,11 @@ public class PostService {
         Post post = postMapper.mapPostDtoToPost(postDto);
 
         Post savedPost = postRepository.save(post);
+
+        MessageDto messageDto = messageMapper.fromPostDtoToMessageDto(postDto);
+        Thread thread = new Thread(() -> sendEmailService.verifyAndSendEmail(messageDto, UserEmailOptions.POST));
+        thread.start();
+
         return postMapper.mapPostToPostDto(savedPost);
     }
 
@@ -108,7 +122,25 @@ public class PostService {
                 }
             }
         });
-        return finalPosts;
+
+        Comparator<PostDto> comparator = (PostDto o1, PostDto o2) -> {
+            if (o1.getPostDate().before(o2.getPostDate())) {
+                return 1;
+            } else if(o1.getPostDate().equals(o2.getPostDate())) {
+                return 0;
+            }else {
+                return -1;
+            }
+
+//            if(arg1.lt(arg2))
+//                return -1;
+//            else if (arg1.lteq(arg2))
+//                return 0;
+//            else
+//                return 1;
+        };
+        ArrayList<PostDto> posts = finalPosts.stream().sorted(comparator).collect(Collectors.toCollection(ArrayList::new));
+        return posts;
     }
 
 //    public PostDto updatePost(PostDto postDto){
@@ -116,10 +148,10 @@ public class PostService {
 //        return postMapper.mapPostToPostDto(post);
 //    }
 
-    public void deletePostWithSubjectId(Long subjectId){
+    public void deletePostWithSubjectId(Long subjectId) {
 
         List<Post> posts = postRepository.findAllBySubjectId(subjectId);
-        for (Post post:posts){
+        for (Post post : posts) {
             this.commentsService.deleteCommentsWithPostId(post.getId());
         }
         postRepository.deleteAllBySubjectId(subjectId);

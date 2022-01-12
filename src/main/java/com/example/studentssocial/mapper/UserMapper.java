@@ -17,6 +17,9 @@ public class UserMapper {
         user.setRegistrationDate(userDto.getRegistrationDate());
         user.setAuthorities(userDto.getAuthorities());
         user.setProfileImage(userDto.getProfileImage());
+        user.setTagEmail(userDto.getTagEmail());
+        user.setPostEmail(userDto.getPostEmail());
+        user.setCommentEmail(userDto.getCommentEmail());
         return user;
     }
 

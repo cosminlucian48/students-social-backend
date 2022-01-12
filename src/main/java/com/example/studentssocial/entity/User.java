@@ -1,5 +1,6 @@
 package com.example.studentssocial.entity;
 
+import com.example.studentssocial.constants.SecurityConstant;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cascade;
@@ -30,9 +31,16 @@ public class User {
     private Date registrationDate;
     @Column(name = "authorities")
     private String authorities;
-    @Column
     @Lob
+    @Column(name = "profileImage",columnDefinition = "varchar(1000000) DEFAULT '" + SecurityConstant.DEFAULT_PROFILE_IMAGE+"'" )
     private String profileImage;
+
+    @Column(name = "tagEmail",columnDefinition="BOOLEAN DEFAULT true")
+    private Boolean tagEmail;
+    @Column(name = "commentEmail",columnDefinition="BOOLEAN DEFAULT true")
+    private Boolean commentEmail;
+    @Column(name = "postEmail",columnDefinition="BOOLEAN DEFAULT true")
+    private Boolean postEmail;
 //    byte[] profileImage;
 
 
