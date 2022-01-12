@@ -5,13 +5,15 @@ values ('99', 'iuliangal@gmail.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWED
         '2021-05-23T18:25:43.511Z','MODERATOR'),
        ('102', 'andreiionel@yahoo.com', '1234567', 'Andrei', 'Popescu', 'Universitatea din Bucuresti','Facultate de Matematica si Informatica',
         '2021-10-23T18:25:43.511Z','MODERATOR'),
-       ('103', 'biziday22@yahoo.com', 'bitcoini', 'Laurentiu', 'Suto', 'Universitatea din Iasi','Facultatea de Matematica si Informatica',
+       ('103', 'laurrrrr202@yahoo.com', 'bitcoini', 'Laurentiu', 'Suto', 'Universitatea din Iasi','Facultatea de Matematica si Informatica',
         '2020-08-23T18:25:43.511Z','USER'),
        ('104', 'linkedinemployee33@yahoo.com', 'memeslol', 'Percutiu', 'Avramescu', 'Politehnica Bucuresti','Facultatea de Automatizari si Calculatoare',
         '2021-06-20T18:25:43.511Z','USER'),
-       ('105', 'pandadaniel12@yahoo.com', 'frontal2223', 'Daniel', 'Ionasiu', 'Politehnica Bucuresti','Facultatea de Electronica, Telecomunicatii şi Tehnologia Informatiei',
+       ('105', 'pandadaniel12@yahoo.com', 'parolaparola', 'Daniel', 'Ionasiu', 'Politehnica Bucuresti','Facultatea de Electronica, Telecomunicatii şi Tehnologia Informatiei',
         '2021-08-23T18:25:43.511Z','USER'),
-       ('106', 'hatzjonule69@yahoo.com', 'frontal2223', 'Dorian', 'Popa', 'Politehnica Cluj', 'Facultatea de Telecomunicatii',
+       ('106', 'popaandrei20@yahoo.com', 'frontal2223', 'Andrei', 'Popa', 'Politehnica Cluj', 'Facultatea de Telecomunicatii',
+        '2021-11-23T18:25:43.511Z','USER'),
+       ('107', 'buyslawingandrei@yahoo.com', 'distins2', 'Andrei', 'Distinski', 'Universitatea din Bucuresti', 'Facultatea de Drept',
         '2021-11-23T18:25:43.511Z','USER');
 insert into user(id, email, password, first_Name, last_Name, university,faculty, registration_Date,authorities,profile_image)
 values ('100', 'cosminlucian48@yahoo.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWEDR9xyVlzJDKbs/wxKb6',
@@ -20,11 +22,18 @@ values ('100', 'cosminlucian48@yahoo.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVO
 
 
 insert into subject (id, name, description,user_Id)
-values ('101', 'Calculus 1', 'Introduction involving curves and differential equations', '100'),
-       ('102', 'Descriptive Geometry', 'Representation of 3-D Models','100'),
-       ('103', 'Mechanics', 'Physical phenomena involving motion of objects','100'),
-       ('104', 'Object Oriented Programming', 'Introductory course, involving classes and a small project','100'),
-       ('105', 'Computer Vision', 'Field of AI which involves manipulation of images and videos','100');
+values ('101', 'Calculus 1', 'Introduction involving curves and differential equations.', '100'),
+       ('102', 'Descriptive Geometry', 'Representation of 3-D Models.','100'),
+       ('103', 'Mechanics', 'Physical phenomena involving motion of objects.','100'),
+       ('104', 'Object Oriented Programming', 'Introductory course, involving classes and a small project.','100'),
+       ('105', 'Computer Vision', 'Field of AI which involves manipulation of images and videos.','100'),
+       ('106', 'Intellectual Property Law', 'Intellectual Property law deals with laws to protect and enforce the rights of creators.', '100'),
+       ('107', 'Constitutional and Administrative Law', 'Expands on the areas of law which establish and regulate institutions of government within states.', '100'),
+       ('108', 'Geographic Information Systems', 'Creation and management of maps of all types of data', '100'),
+       ('109', 'Biochemistry', 'The application of chemistry to the study of biological processes at the cellular and molecular level', '100'),
+       ('110', 'Community medicine', 'The branch of medicine concerned with the health of populations', '100'),
+       ('111', 'Developmental Psychology', 'Developmental psychology is the branch of psychology that focuses on how people grow and change over the course of a lifetime.', '100'),
+       ('112', 'Macroeconomics', 'Study of the behaviour of a national or regional economy as a whole. ', '100');
 
 insert into user_subject(id, registration_Date, subject_Id, user_Id)
 values ('101', '2021-08-23T18:25:43.511Z', '101', '101'),
@@ -41,7 +50,27 @@ values ('101', '2021-08-23T18:25:43.511Z', '101', '101'),
        ('112', '2021-12-07T18:25:43.511Z', '101', '106'),
        ('113', '2021-12-08T19:25:43.511Z', '103', '106'),
        ('114', '2021-12-09T19:25:43.511Z', '104', '106'),
-       ('115', '2021-12-10T19:25:43.511Z', '105', '106');
+       ('115', '2021-12-10T19:25:43.511Z', '105', '106'),
+       ('116', '2021-12-10T19:25:43.511Z', '106', '107'),
+       ('117', '2021-12-10T19:25:43.511Z', '106', '103'),
+       ('118', '2021-12-10T19:25:43.511Z', '107', '107'),
+       ('119', '2021-12-10T19:25:43.511Z', '107', '102'),
+       ('120', '2021-12-10T19:25:43.511Z', '108', '103'),
+       ('121', '2021-12-10T19:25:43.511Z', '108', '102'),
+       ('122', '2021-12-10T19:25:43.511Z', '108', '101'),
+       ('123', '2021-12-10T19:25:43.511Z', '109', '104'),
+       ('124', '2021-12-10T19:25:43.511Z', '109', '106'),
+       ('125', '2021-12-10T19:25:43.511Z', '109', '102'),
+       ('126', '2021-12-10T19:25:43.511Z', '110', '101'),
+       ('127', '2021-12-10T19:25:43.511Z', '110', '107'),
+       ('128', '2021-12-10T19:25:43.511Z', '110', '106'),
+       ('129', '2021-12-10T19:25:43.511Z', '111', '101'),
+       ('130', '2021-12-10T19:25:43.511Z', '111', '102'),
+       ('131', '2021-12-10T19:25:43.511Z', '111', '104'),
+       ('132', '2021-12-10T19:25:43.511Z', '112', '105'),
+       ('133', '2021-12-10T19:25:43.511Z', '112', '103'),
+       ('134', '2021-12-10T19:25:43.511Z', '112', '106');
+
 
 insert into post(id, is_Sticky, post_Date, text, title, subject_Id, user_Id, post_Type)
 values ('101', 'true', '2021-08-25T18:25:43.511Z',
@@ -62,8 +91,39 @@ values ('101', 'true', '2021-08-25T18:25:43.511Z',
        ('106', 'true', '2021-11-09T18:25:43.511Z', 'OOP - Objects and Classes, featuring Andrei Paun, the god of C++',
         'Introduction to OOP', '104', '106','USER'),
        ('107', 'false', '2021-11-10T18:25:43.511Z',
-        'Installing a python interpreter and learning basic funtions of the OpenCV library',
-        'Short tutorial for Python', '105', '102','USER');
+        'Installing a python interpreter and learning basic funtions of the OpenCV library.',
+        'Short tutorial for Python', '105', '102','USER'),
+        ('108', 'false', '2021-11-10T18:25:43.511Z',
+        'A patent is a form of right granted by the government to an inventor or their succesor-in-title',
+        'Introduction to patents.', '106', '107','USER'),
+        ('109', 'false', '2021-11-10T18:25:43.511Z',
+        'The copyright and a full description of the range of creative, intellectual or artistic forms.',
+        'Copyright - Detailed revision.', '106', '107','USER'),
+        ('110', 'false', '2021-11-10T18:25:43.511Z',
+        'Focusing on the easter-european countries, we come into detail talking about the flaws of the adopted administration laws.',
+        'Close inspection to the administration law in eastern-european countries.', '107', '107','USER'),
+        ('111', 'false', '2021-11-10T18:25:43.511Z',
+        'Maps are the geographic container for the data layers and analytics.',
+        'Maps - Information systems', '108', '102','USER'),
+        ('112', 'false', '2021-11-10T18:25:43.511Z',
+        'The integration of different kinds of data layers using spatial location.',
+        'Data - Information systems', '108', '103','USER'),
+        ('113', 'false', '2021-11-10T18:25:43.511Z',
+        'Waxes, fatty acids, derived phospolipids - use, application and chemical formulas.',
+        'Biomolecules  - Lipids', '109', '104','USER'),
+        ('114', 'false', '2021-11-10T18:25:43.511Z',
+        'Main course where we talk about glucose as an energy recourse in most life forms.',
+        'Carbohydrates as energy source', '109', '106','USER'),
+        ('115', 'false', '2021-11-10T18:25:43.511Z',
+        'The science and art of preventing disease - focusing on antibiotics and dietary supplements.',
+        'Public health', '110', '107','USER'),
+        ('116', 'false', '2021-11-10T18:25:43.511Z',
+        'Piaget claimed that logic and morality develop through constructive stages. Expanding on Piagets work, Lawrence Kohlberg determined that the process of moral development was principally concerned with justice.',
+        'Stages of moral development', '111', '102','USER'),
+        ('117', 'false', '2021-11-10T18:25:43.511Z',
+        'The role of money as explained by Milton Friedman ',
+        'Monetarism - An Introduction', '112', '103','USER');
+
 
 insert into comments(id, comments_Date, text, post_Id, user_Id,comment_type)
 values ('101', '2021-08-25T19:21:43.511Z', 'Great lecture.', '101', '103','USER'),
@@ -78,9 +138,25 @@ values ('101', '2021-08-25T19:21:43.511Z', 'Great lecture.', '101', '103','USER'
         '104','USER'),
        ('108', '2021-11-09T21:25:43.511Z', 'Surely wont mind more lectures from this proffesor!', '106', '102','USER'),
        ('109', '2021-11-09T22:25:43.511Z', 'I heard he only gives out high grades.', '106', '101','USER'),
-       ('110', '2021-11-10T18:25:43.511Z', 'I love python!', '107', '106','USER');
-
-
+       ('110', '2021-11-10T18:25:43.511Z', 'I love python!', '107', '106','USER'),
+       ('111', '2021-11-10T18:25:43.511Z', 'Would you say what apple has done with bluetooth headphones is considered a patent?', '108', '103','USER'),
+       ('112', '2021-11-10T18:27:43.511Z', 'Not necessarily, a patent has to be registered and it usually expires within a period of time.', '108', '107','USER'),
+       ('113', '2021-11-10T18:29:43.511Z', 'Okay, so a patented product usually is a throwaway term compared to the actual terminology used in the law.', '108', '103','USER'),
+       ('114', '2021-11-10T19:25:43.511Z', 'Absolutely.', '108', '107','USER'),
+       ('115', '2021-11-10T19:25:43.511Z', 'Thanks for the input!', '109', '103','USER'),
+       ('116', '2021-11-10T19:25:43.511Z', 'This course comes very close to what we were taught in statistics.', '111', '107','USER'),
+       ('117', '2021-11-10T19:25:43.511Z', 'Affirmative ! It is very close to what people are taught in the statistics course.', '111', '103','USER'),
+       ('118', '2021-11-10T19:25:43.511Z', 'Great ! ', '110', '103','USER'),
+       ('119', '2021-11-10T19:25:43.511Z', 'Even closer to statistics! ', '112', '107','USER'),
+       ('120', '2021-11-10T19:25:43.511Z', 'Is there a similar document, but with carbohydrates?', '113', '106','USER'),
+       ('121', '2021-11-10T19:29:43.511Z', 'We will post one soon.', '113', '104','USER'),
+       ('122', '2021-11-10T19:25:43.511Z', 'Okay, I will wait for it! Thanks!', '113', '106','USER'),
+       ('123', '2021-11-10T19:25:43.511Z', 'Thanks !', '114', '106','USER'),
+       ('124', '2021-11-10T20:25:43.511Z', 'Thanks for the upload, it wil be useful in third year.', '115', '107','USER'),
+       ('125', '2021-11-10T19:25:43.511Z', 'Piaget was a pioneer to our education, love his work and I am surely looking out for more courses invloing his studies. !', '116', '106','USER'),
+       ('126', '2021-11-10T19:25:43.511Z', 'What is the difference between macro and micro economics?', '117', '106','USER'),
+       ('127', '2021-11-11T19:25:43.511Z', 'Micro envolves the economics of a corporation, brand etc and macro refers to economy as a whole. You should enroll to our micro course!', '117', '103','USER'),
+       ('128', '2021-11-10T19:25:43.511Z', 'Okay, I will look forward to it then!', '117', '106','USER');
 /*
 HTTPS:Localhost:8080/h2-console-students/
 
