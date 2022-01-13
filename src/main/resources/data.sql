@@ -93,7 +93,9 @@ values ('101', '2021-08-23T18:25:43.511Z', '101', '101'),
        ('131', '2021-12-10T19:25:43.511Z', '111', '104'),
        ('132', '2021-12-10T19:25:43.511Z', '112', '105'),
        ('133', '2021-12-10T19:25:43.511Z', '112', '103'),
-       ('134', '2021-12-10T19:25:43.511Z', '112', '106');
+       ('134', '2021-12-10T19:25:43.511Z', '112', '106'),
+       ('135', '2021-12-10T19:25:43.511Z', '112', '101'),
+       ('136', '2021-12-10T19:25:43.511Z', '110', '101');
 
 
 insert into post(id, is_Sticky, post_Date, text, title, subject_Id, user_Id, post_Type)
@@ -113,7 +115,7 @@ values ('101', 'true', '2021-08-25T18:25:43.511Z',
         'Right hand rule - applications in day-to-day life and the usefulness of basic physics equations',
         'Right hand rule', '103', '105', 'USER'),
        ('106', 'true', '2021-11-09T18:25:43.511Z', 'OOP - Objects and Classes, featuring Andrei Paun, the god of C++',
-        'Introduction to OOP', '104', '106', 'USER'),
+        'Introduction to OOP', '104', '101', 'USER'),
        ('107', 'false', '2021-11-10T18:25:43.511Z',
         'Installing a python interpreter and learning basic funtions of the OpenCV library.',
         'Short tutorial for Python', '105', '102', 'USER'),
@@ -140,13 +142,13 @@ values ('101', 'true', '2021-08-25T18:25:43.511Z',
         'Carbohydrates as energy source', '109', '106', 'USER'),
        ('115', 'false', '2021-11-10T18:25:43.511Z',
         'The science and art of preventing disease - focusing on antibiotics and dietary supplements.',
-        'Public health', '110', '107', 'USER'),
+        'Public health', '110', '101', 'USER'),
        ('116', 'false', '2021-11-10T18:25:43.511Z',
         'Piaget claimed that logic and morality develop through constructive stages. Expanding on Piagets work, Lawrence Kohlberg determined that the process of moral development was principally concerned with justice.',
         'Stages of moral development', '111', '102', 'USER'),
        ('117', 'false', '2021-11-10T18:25:43.511Z',
         'The role of money as explained by Milton Friedman ',
-        'Monetarism - An Introduction', '112', '103', 'USER');
+        'Monetarism - An Introduction', '112', '101', 'USER');
 
 
 insert into comments(id, comments_Date, text, post_Id, user_Id, comment_type)
