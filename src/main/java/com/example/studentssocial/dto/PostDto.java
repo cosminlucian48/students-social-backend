@@ -2,7 +2,10 @@ package com.example.studentssocial.dto;
 
 import lombok.Data;
 
+import javax.persistence.Column;
+import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class PostDto {
@@ -16,4 +19,7 @@ public class PostDto {
     private Boolean isSticky;
     private String postType;
     private String profileImage;
+    private String fileName;
+    private String realFileName;
+//    private List<File> files;
 }

@@ -11,7 +11,10 @@ import com.example.studentssocial.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,9 +27,10 @@ public class PostService {
     private final PostMapper postMapper;
     private final MessageMapper messageMapper;
     private final SendEmailService sendEmailService;
+    private final FileStorageServiceImpl storageService;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserService userService, ParseService parseService, CommentsService commentsService, PostMapper postMapper, MessageMapper messageMapper,  SendEmailService sendEmailService) {
+    public PostService(PostRepository postRepository, UserService userService, ParseService parseService, CommentsService commentsService, PostMapper postMapper, MessageMapper messageMapper, SendEmailService sendEmailService, FileStorageServiceImpl storageService) {
         this.userService = userService;
         this.parseService = parseService;
         this.commentsService = commentsService;
@@ -34,6 +38,7 @@ public class PostService {
         this.postRepository = postRepository;
         this.messageMapper = messageMapper;
         this.sendEmailService = sendEmailService;
+        this.storageService = storageService;
     }
 
     public List<Post> getAllPosts() {
@@ -84,7 +89,23 @@ public class PostService {
 
     }
 
-    public PostDto savePost(PostDto postDto) {
+    public PostDto savePost(PostDto postDto, List<MultipartFile> files) {
+        if(files!=null) {
+            try {
+//                storageService.init();
+                files.forEach((value) -> {
+                    if(postDto.getFileName()!=null) {
+                        postDto.setFileName(postDto.getFileName() + "," +value.getOriginalFilename());
+                    }else{
+                        postDto.setFileName(value.getOriginalFilename());
+                    }
+                    storageService.save(value);
+                });
+
+            } catch (Exception e) {
+
+            }
+        }
         List<User> users = userService.getUsersByEmail(postDto.getEmail());
         postDto.setUserId(users.get(0).getId());
         postDto.setPostType(users.get(0).getAuthorities());
@@ -93,20 +114,26 @@ public class PostService {
         Post savedPost = postRepository.save(post);
 
         MessageDto messageDto = messageMapper.fromPostDtoToMessageDto(postDto);
+
+
+//        System.out.println(storageService.loadAll().collect(Collectors.toList()));
         Thread thread = new Thread(() -> sendEmailService.verifyAndSendEmail(messageDto, UserEmailOptions.POST));
         thread.start();
 
         return postMapper.mapPostToPostDto(savedPost);
     }
 
-    public List<PostDto> getPostsBySubjectId(Long subjectId) {
+    public List<PostDto> getPostsBySubjectId(Long subjectId) throws IOException {
         List<Post> allPosts = new ArrayList<>();
+        List<File> files = new ArrayList<>();
         postRepository.findAll().iterator().forEachRemaining(allPosts::add);
         List<PostDto> finalPosts = new ArrayList<>();
         for (Post post : allPosts) {
+            files = new ArrayList<>();
             if (post.getSubject().getId() == subjectId) {
                 User user = userService.getUserById(post.getUser().getId());
                 PostDto postDto = postMapper.mapPostToPostDto(post);
+                
                 postDto.setEmail(user.getEmail());
                 finalPosts.add(postDto);
             }

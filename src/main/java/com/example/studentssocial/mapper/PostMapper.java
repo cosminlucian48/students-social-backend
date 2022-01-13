@@ -6,6 +6,8 @@ import com.example.studentssocial.entity.Subject;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.repository.SubjectRepository;
 import com.example.studentssocial.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,8 @@ public class PostMapper {
         post.setText(postDto.getText());
         post.setTitle(postDto.getTitle());
         post.setPostType(postDto.getPostType());
+        post.setFileName(postDto.getFileName());
+        post.setRealFileName(postDto.getRealFileName());
 
         return post;
 
@@ -50,7 +54,15 @@ public class PostMapper {
         postDto.setTitle(post.getTitle());
         postDto.setPostType(post.getPostType());
         postDto.setProfileImage(post.getUser().getProfileImage());
+        postDto.setFileName(post.getFileName());
+        postDto.setRealFileName(post.getRealFileName());
 
+        return postDto;
+    }
+
+    public PostDto mapJsonToPostDto(String postJons) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        PostDto postDto = mapper.readValue(postJons, PostDto.class);
         return postDto;
     }
 }

@@ -62,8 +62,8 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/subject/{subjectId}")
-    public List<User> getUserBySubjectId(@PathVariable("subjectId") Long subjectId){return userService.getUsersBySubjectId(subjectId);}
+    @GetMapping(value = "/subject")
+    public List<User> getUserBySubjectId(@RequestParam("subjectId") Long subjectId){return userService.getUsersBySubjectId(subjectId);}
     @GetMapping(value = "/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);

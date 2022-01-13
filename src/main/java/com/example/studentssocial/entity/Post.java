@@ -19,16 +19,22 @@ public class Post {
     @JoinColumn
     @ManyToOne()
     private Subject subject;
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
+    @Lob
     @Column(name = "text")
     private String text;
-    @Column (name = "postDate")
+    @Column(name = "postDate")
     private Date postDate;
-    @Column (name = "isSticky")
+    @Column(name = "isSticky")
     private Boolean isSticky;
-    @Column (name = "postType")
+    @Column(name = "postType")
     private String postType;
+    @Lob
+    @Column(name = "fileName")
+    private String fileName;
+    @Column(name = "realFileName")
+    private String realFileName;
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 //    private List<Comments> comments;
 }
