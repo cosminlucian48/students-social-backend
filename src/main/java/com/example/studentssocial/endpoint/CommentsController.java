@@ -1,15 +1,12 @@
 package com.example.studentssocial.endpoint;
 
 import com.example.studentssocial.dto.CommentsDto;
-import com.example.studentssocial.dto.PostDto;
-import com.example.studentssocial.dto.SubjectDto;
 import com.example.studentssocial.entity.Comments;
-import com.example.studentssocial.entity.Post;
-import com.example.studentssocial.entity.Subject;
+import com.example.studentssocial.mapper.CommentsMapper;
 import com.example.studentssocial.service.CommentsService;
-import com.example.studentssocial.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +16,12 @@ import java.util.Optional;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class CommentsController {
     private final CommentsService commentsService;
+    private final CommentsMapper commentsMapper;
 
     @Autowired
-    public CommentsController(CommentsService commentsService) {
+    public CommentsController(CommentsService commentsService, CommentsMapper commentsMapper) {
         this.commentsService = commentsService;
+        this.commentsMapper = commentsMapper;
     }
 
     @GetMapping
@@ -31,12 +30,23 @@ public class CommentsController {
     }
 
     @PostMapping
-    public CommentsDto postComments(@RequestBody CommentsDto commentsDto){
-        return commentsService.saveComments(commentsDto);}
+    public CommentsDto postComments(@RequestPart("comment") String commentJson, @RequestPart(value = "file", required = false) List<MultipartFile> files) {
+        CommentsDto commentsDto;
+        try {
+            commentsDto = commentsMapper.mapJsonToCommentDto(commentJson);
+            return commentsService.saveComments(commentsDto, files);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 
 
     @GetMapping(value = "/post/{postId}")
-    public List<CommentsDto> getCommentsByPostId(@PathVariable("postId") Long postId){return commentsService.getCommentsbyPostId(postId);}
+    public List<CommentsDto> getCommentsByPostId(@PathVariable("postId") Long postId) {
+        return commentsService.getCommentsbyPostId(postId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteComments(@PathVariable Long id) {
         commentsService.deleteComments(id);
@@ -49,6 +59,8 @@ public class CommentsController {
     }
 
     @GetMapping(value = "/{id}")
-    public Optional<Comments> getComments(@PathVariable("id") Long id) { return commentsService.getComments(id); }
+    public Optional<Comments> getComments(@PathVariable("id") Long id) {
+        return commentsService.getComments(id);
+    }
 
 }

@@ -24,5 +24,8 @@ public class Comments {
     private User user;
     @Column(name="commentType")
     private String commentType;
+    @Lob
+    @Column(name = "fileName")
+    private String fileName;
 
 }

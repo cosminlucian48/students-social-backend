@@ -15,4 +15,5 @@ public class CommentsDto {
     private long userId;
     private String commentType;
     private String profileImage;
+    private String fileName;
 }

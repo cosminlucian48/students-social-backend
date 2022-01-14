@@ -202,16 +202,6 @@ public class PostService {
             }
         }
 
-//        Collections.sort(finalPosts, new Comparator<PostDto>() {
-//            @Override
-//            public int compare(PostDto o1, PostDto o2) {
-//                if (o1.getPostDate().before(o2.getPostDate())) {
-//                    return 0;
-//                } else {
-//                    return 1;
-//                }
-//            }
-//        });
 
         Comparator<PostDto> comparator = (PostDto o1, PostDto o2) -> {
             if (o1.getPostDate().before(o2.getPostDate())) {
@@ -227,10 +217,6 @@ public class PostService {
         return posts;
     }
 
-//    public PostDto updatePost(PostDto postDto){
-//        Post post = postRepository.findById(postDto.getId()).get();
-//        return postMapper.mapPostToPostDto(post);
-//    }
 
     public void deletePostWithSubjectId(Long subjectId) {
 

@@ -9,6 +9,8 @@ import com.example.studentssocial.entity.User;
 import com.example.studentssocial.repository.PostRepository;
 import com.example.studentssocial.repository.SubjectRepository;
 import com.example.studentssocial.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +36,7 @@ public class CommentsMapper {
         comments.setCommentsDate(commentsDto.getCommentsDate());
         comments.setText(commentsDto.getText());
         comments.setCommentType(commentsDto.getCommentType());
+        comments.setFileName(commentsDto.getFileName());
 
 
 
@@ -53,7 +56,14 @@ public class CommentsMapper {
         commentsDto.setEmail(comments.getUser().getEmail());
         commentsDto.setCommentType(comments.getCommentType());
         commentsDto.setProfileImage(comments.getUser().getProfileImage());
+        commentsDto.setFileName(comments.getFileName());
 
         return commentsDto;
     }
+    public CommentsDto mapJsonToCommentDto(String commentJson) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        CommentsDto commentsDto = mapper.readValue(commentJson, CommentsDto.class);
+        return commentsDto;
+    }
+
 }

@@ -2,17 +2,22 @@ package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.CommentsDto;
 import com.example.studentssocial.dto.MessageDto;
-import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Comments;
+import com.example.studentssocial.entity.Post;
+import com.example.studentssocial.entity.Subject;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.enums.UserEmailOptions;
 import com.example.studentssocial.mapper.CommentsMapper;
 import com.example.studentssocial.mapper.MessageMapper;
 import com.example.studentssocial.repository.CommentsRepository;
+import com.example.studentssocial.repository.PostRepository;
+import com.example.studentssocial.repository.SubjectRepository;
 import com.example.studentssocial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,16 +30,23 @@ public class CommentsService {
     private final CommentsRepository commentsRepository;
     private final SendEmailService sendEmailService;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final SubjectRepository subjectRepository;
     private final CommentsMapper commentsMapper;
     private final MessageMapper messageMapper;
 
+    private final FileStorageServiceImpl storageService;
+
     @Autowired
-    public CommentsService(CommentsRepository commentsRepository, SendEmailService sendEmailService, UserRepository userRepository, CommentsMapper commentsMapper, MessageMapper messageMapper) {
+    public CommentsService(CommentsRepository commentsRepository, SendEmailService sendEmailService, UserRepository userRepository, PostRepository postRepository, SubjectRepository subjectRepository, CommentsMapper commentsMapper, MessageMapper messageMapper, FileStorageServiceImpl storageService) {
         this.sendEmailService = sendEmailService;
         this.userRepository = userRepository;
+        this.postRepository = postRepository;
+        this.subjectRepository = subjectRepository;
         this.commentsMapper = commentsMapper;
         this.commentsRepository = commentsRepository;
         this.messageMapper = messageMapper;
+        this.storageService = storageService;
     }
 
     public List<Comments> getAllComments() {
@@ -92,8 +104,36 @@ public class CommentsService {
 
     }
 
-    public CommentsDto saveComments(CommentsDto commentsDto)
+    public CommentsDto saveComments(CommentsDto commentsDto,List<MultipartFile> files)
     {
+        if (files != null) {
+            try {
+                Long postId = commentsDto.getPostId();
+                Optional<Post> post = postRepository.findById(postId);
+                Long subjectId= 0L;
+                if(post.isPresent()){
+                    subjectId = post.get().getSubject().getId();
+                }
+                String filePath = getUploadFilePathAndCreateIfNotExist(subjectId);
+                files.forEach((file) -> {
+                    String fileName = file.getOriginalFilename();
+                    fileName = getUniqueFileName(filePath, fileName);
+                    if (commentsDto.getFileName() != "") {
+                        commentsDto.setFileName(commentsDto.getFileName() + "," + fileName);
+                    } else {
+                        commentsDto.setFileName(fileName);
+                    }
+                    //trb sa verific cand fac save
+
+                    storageService.save(file, filePath, fileName);
+                });
+
+            } catch (Exception e) {
+
+            }
+        }
+
+
         Comments comments = commentsMapper.mapCommentsDtoToComments(commentsDto);
 
         Optional<User> user = userRepository.findById(commentsDto.getUserId());
@@ -108,6 +148,36 @@ public class CommentsService {
         thread.start();
         return commentsMapper.mapCommentsToCommentsDto(savedComments);
     }
+
+
+    private String getUniqueFileName(String filePath, String fileName) {
+        String uniqueFileName = fileName;
+        if (storageService.checkIfFileNameExists(fileName, filePath)) {
+            uniqueFileName = storageService.generateNameForExistingFile(fileName, filePath);
+            return getUniqueFileName(filePath, uniqueFileName);
+        }else{
+
+            return uniqueFileName;
+        }
+    }
+
+    private String getUploadFilePathAndCreateIfNotExist(Long subjectId) {
+        String uploadFilePath = getUploadFilePath(subjectId);
+        storageService.checkAndAddFolder(uploadFilePath);
+        return uploadFilePath;
+    }
+
+    private String getUploadFilePath(Long subjectId) {
+        String rootPath = storageService.getRootPath();
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
+        String subjectDirectory = "";
+        if (subject.isPresent()) {
+            subjectDirectory = subject.get().getName();
+        }
+        return rootPath + File.separator + subjectDirectory;
+    }
+
+
 
     public void deleteCommentsWithPostId(Long postId){
         commentsRepository.deleteAllByPostId(postId);
