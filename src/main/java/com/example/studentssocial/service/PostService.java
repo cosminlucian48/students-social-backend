@@ -3,15 +3,20 @@ package com.example.studentssocial.service;
 import com.example.studentssocial.dto.MessageDto;
 import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Post;
+import com.example.studentssocial.entity.Subject;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.enums.UserEmailOptions;
 import com.example.studentssocial.mapper.MessageMapper;
 import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.repository.PostRepository;
+import com.example.studentssocial.repository.SubjectRepository;
+import org.apache.tomcat.jni.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final SubjectRepository subjectRepository;
     private final UserService userService;
     private final ParseService parseService;
     private final CommentsService commentsService;
@@ -30,7 +36,8 @@ public class PostService {
     private final FileStorageServiceImpl storageService;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserService userService, ParseService parseService, CommentsService commentsService, PostMapper postMapper, MessageMapper messageMapper, SendEmailService sendEmailService, FileStorageServiceImpl storageService) {
+    public PostService(PostRepository postRepository, SubjectRepository subjectRepository, UserService userService, ParseService parseService, CommentsService commentsService, PostMapper postMapper, MessageMapper messageMapper, SendEmailService sendEmailService, FileStorageServiceImpl storageService) {
+        this.subjectRepository = subjectRepository;
         this.userService = userService;
         this.parseService = parseService;
         this.commentsService = commentsService;
@@ -67,6 +74,30 @@ public class PostService {
         return optionalPost;
     }
 
+//    public List<FileInfo> getAllFiles(){
+//        List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
+//            String filename = path.getFileName().toString();
+//
+//
+//            return new FileInfo(filename, url);
+//        }).collect(Collectors.toList());
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
+//    }
+
+    public Resource getFile(String filename, Long subjectId){
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
+        System.out.println(subjectId);
+        String subjectName = "";
+        if(subject.isPresent()){
+            subjectName = subject.get().getName();
+        }
+        Resource file = storageService.load(filename,subjectName);
+//        System.out.println(file);
+        return file;
+    }
+
+
     public void deletePost(Long id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
@@ -90,16 +121,20 @@ public class PostService {
     }
 
     public PostDto savePost(PostDto postDto, List<MultipartFile> files) {
-        if(files!=null) {
+        if (files != null) {
             try {
-//                storageService.init();
-                files.forEach((value) -> {
-                    if(postDto.getFileName()!=null) {
-                        postDto.setFileName(postDto.getFileName() + "," +value.getOriginalFilename());
-                    }else{
-                        postDto.setFileName(value.getOriginalFilename());
+                String filePath = getUploadFilePathAndCreateIfNotExist(postDto.getSubjectId());
+                files.forEach((file) -> {
+                    String fileName = file.getOriginalFilename();
+                    fileName = getUniqueFileName(filePath, fileName);
+                    if (postDto.getFileName() != "") {
+                        postDto.setFileName(postDto.getFileName() + "," + fileName);
+                    } else {
+                        postDto.setFileName(fileName);
                     }
-                    storageService.save(value);
+                    //trb sa verific cand fac save
+
+                    storageService.save(file, filePath, fileName);
                 });
 
             } catch (Exception e) {
@@ -123,6 +158,34 @@ public class PostService {
         return postMapper.mapPostToPostDto(savedPost);
     }
 
+    private String getUniqueFileName(String filePath, String fileName) {
+        String uniqueFileName = fileName;
+        if (storageService.checkIfFileNameExists(fileName, filePath)) {
+            uniqueFileName = storageService.generateNameForExistingFile(fileName, filePath);
+            return getUniqueFileName(filePath, uniqueFileName);
+        }else{
+
+            return uniqueFileName;
+        }
+    }
+
+    private String getUploadFilePathAndCreateIfNotExist(Long subjectId) {
+        String uploadFilePath = getUploadFilePath(subjectId);
+        storageService.checkAndAddFolder(uploadFilePath);
+        return uploadFilePath;
+    }
+
+    private String getUploadFilePath(Long subjectId) {
+        String rootPath = storageService.getRootPath();
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
+        String subjectDirectory = "";
+        if (subject.isPresent()) {
+            subjectDirectory = subject.get().getName();
+        }
+        return rootPath + File.separator + subjectDirectory;
+    }
+
+
     public List<PostDto> getPostsBySubjectId(Long subjectId) throws IOException {
         List<Post> allPosts = new ArrayList<>();
         List<File> files = new ArrayList<>();
@@ -133,38 +196,32 @@ public class PostService {
             if (post.getSubject().getId() == subjectId) {
                 User user = userService.getUserById(post.getUser().getId());
                 PostDto postDto = postMapper.mapPostToPostDto(post);
-                
+
                 postDto.setEmail(user.getEmail());
                 finalPosts.add(postDto);
             }
         }
 
-        Collections.sort(finalPosts, new Comparator<PostDto>() {
-            @Override
-            public int compare(PostDto o1, PostDto o2) {
-                if (o1.getPostDate().before(o2.getPostDate())) {
-                    return 0;
-                } else {
-                    return 1;
-                }
-            }
-        });
+//        Collections.sort(finalPosts, new Comparator<PostDto>() {
+//            @Override
+//            public int compare(PostDto o1, PostDto o2) {
+//                if (o1.getPostDate().before(o2.getPostDate())) {
+//                    return 0;
+//                } else {
+//                    return 1;
+//                }
+//            }
+//        });
 
         Comparator<PostDto> comparator = (PostDto o1, PostDto o2) -> {
             if (o1.getPostDate().before(o2.getPostDate())) {
                 return 1;
-            } else if(o1.getPostDate().equals(o2.getPostDate())) {
+            } else if (o1.getPostDate().equals(o2.getPostDate())) {
                 return 0;
-            }else {
+            } else {
                 return -1;
             }
 
-//            if(arg1.lt(arg2))
-//                return -1;
-//            else if (arg1.lteq(arg2))
-//                return 0;
-//            else
-//                return 1;
         };
         ArrayList<PostDto> posts = finalPosts.stream().sorted(comparator).collect(Collectors.toCollection(ArrayList::new));
         return posts;

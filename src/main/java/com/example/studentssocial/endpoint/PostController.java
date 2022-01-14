@@ -4,9 +4,11 @@ import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Post;
 import com.example.studentssocial.mapper.PostMapper;
 import com.example.studentssocial.service.PostService;
+import org.apache.tomcat.jni.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +51,19 @@ public class PostController {
         return postService.getPost(id);
     }
 
+//    @GetMapping("/files")
+//    public List<FileInfo> getListFiles() {
+//
+//        return postService.getAllFiles();
+//    }
+
+    @GetMapping(value="/files/{fileName:.+}/{subjectId}")
+    public Resource getFile( @PathVariable String fileName, @PathVariable("subjectId") Long subjectId) {
+//        System.out.println(fileName.);
+        return postService.getFile(fileName, subjectId);
+
+    }
+
     @DeleteMapping("/{id}")
     public void deletePost(@PathVariable Long id) {
         logger.info("Deleted subject with {}", id);
@@ -66,7 +81,7 @@ public class PostController {
 //        return postService.savePost(postDto,null);
 //    }
     @PostMapping()
-    public PostDto postPost(@RequestPart("post") String postJson, @RequestPart("file") List<MultipartFile> files) {
+    public PostDto postPost(@RequestPart("post") String postJson, @RequestPart(value = "file", required = false) List<MultipartFile> files) {
 //        System.out.println(postDto);
 //        System.out.println(file);
         PostDto postDto;

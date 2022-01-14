@@ -1,12 +1,15 @@
 package com.example.studentssocial.mail;
 
 import com.example.studentssocial.dto.EmailFieldsDto;
+import com.example.studentssocial.endpoint.SubjectController;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.repository.UserRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,6 @@ public class EmailService {
     private final Configuration configuration;
 
     private final UserRepository userRepository;
-
     public void sendEmail(String sendFrom, String sendTo, String mailBody, String title) {
         MimeMessage message = emailSender.createMimeMessage();
         try {
@@ -39,6 +41,7 @@ public class EmailService {
             helper.setText(mailBody, true);
             helper.setFrom(sendFrom);
             emailSender.send(message);
+
         } catch (MessagingException e) {
 
         }

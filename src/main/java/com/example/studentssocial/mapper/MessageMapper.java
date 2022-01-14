@@ -36,7 +36,8 @@ public class MessageMapper {
         Post post = postRepository.getById(commentsDto.getPostId());
         messageDto.setPostTitle(post.getTitle());
 
-        messageDto.setSubjectId(post.getId());
+        messageDto.setSubjectId(post.getSubject().getId());
+
         return messageDto;
     }
 

@@ -16,6 +16,8 @@ import com.example.studentssocial.repository.SubjectRepository;
 import com.example.studentssocial.repository.UserRepository;
 import com.example.studentssocial.repository.UserSubjectRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class SendEmailService {
     private final UserSubjectRepository userSubjectRepository;
     private final EmailService emailService;
     private final MessageBodyService messageBodyService;
+    private Logger logger = LoggerFactory.getLogger(SendEmailService.class);
 
 
     public void verifyAndSendEmail(MessageDto messageDto, UserEmailOptions userEmailOptions) {
@@ -50,22 +53,35 @@ public class SendEmailService {
 
         String subjectName = getSubjectName(messageDto);
         List<String> taggedUserEmails = parseService.parseText(messageDto.getText());
-        //@todo send email
 
         List<User> filteredTaggedUsers = new ArrayList<>();
+        List<String> exceptedEmails = new ArrayList<>();
         taggedUserEmails.forEach((value) -> {
             List<User> users = userRepository.findUserByEmail(value);
             if (users.size() == 1) {
                 User user = users.get(0);
-                filteredTaggedUsers.add(user);
+                if (checkIfSendEmailToUser(user, UserEmailOptions.TAG)) {
+                    filteredTaggedUsers.add(user);
+                } else {
+                    exceptedEmails.add(value);
+                }
             }
         });
-        sendEmailForType(messageDto, UserEmailOptions.TAG, filteredTaggedUsers, subjectName);
+
+        exceptedEmails.forEach((value) -> {
+            taggedUserEmails.remove(value);
+        });
+
+        if (filteredTaggedUsers.size() > 0) {
+            sendEmailForType(messageDto, UserEmailOptions.TAG, filteredTaggedUsers, subjectName);
+        }
 
 
         List<User> users = getUserEnrolledOnSubject(messageDto, userEmailOptions);
         List<User> filteredUsers = users.stream().filter(user -> !taggedUserEmails.contains(user.getEmail())).collect(Collectors.toList());
-        sendEmailForType(messageDto, userEmailOptions, filteredUsers, subjectName);
+        if (filteredUsers.size() > 0) {
+            sendEmailForType(messageDto, userEmailOptions, filteredUsers, subjectName);
+        }
     }
 
     private String getSubjectName(MessageDto messageDto) {
@@ -103,6 +119,7 @@ public class SendEmailService {
             emailFieldsDto.setUserEmail(user.getEmail());
             String emailBody = getEmailBodyByUserEmailOptions(userEmailOptions, emailFieldsDto);
             emailService.sendEmail(ADMIN_EMAIL, user.getEmail(), emailBody, emailTitle);
+            logger.info("Email sent to {}, type: {}", user.getEmail(), userEmailOptions);
         });
     }
 

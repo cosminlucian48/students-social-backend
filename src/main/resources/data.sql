@@ -23,7 +23,8 @@ values ('99', 'iuliangal@gmail.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWED
        ('107', 'buyslawingandrei@yahoo.com', 'distins2', 'Andrei', 'Distinski', 'Universitatea din Bucuresti',
         'Facultatea de Drept',
         '2021-11-23T18:25:43.511Z', 'USER');
-insert into user(id, email, password, first_Name, last_Name, university, faculty, registration_Date, authorities,profile_image, tag_email, post_email, comment_email)
+insert into user(id, email, password, first_Name, last_Name, university, faculty, registration_Date, authorities,
+                 profile_image, tag_email, post_email, comment_email)
 values ('100', 'cosminlucian48@yahoo.com', '$2a$10$zc4fpoh9.hDhph3.iUY0AuQUwPXVOCYTWEDR9xyVlzJDKbs/wxKb6',
         'Cosmin', 'Ruja', 'Universitate din Bucuresti', 'Facultatea de Matematica si Informatica',
         '2021-05-23T18:25:43.511Z', 'ADMIN',
@@ -60,13 +61,12 @@ values ('101', 'Calculus 1', 'Introduction involving curves and differential equ
        ('112', 'Macroeconomics', 'Study of the behaviour of a national or regional economy as a whole. ', '100');
 
 insert into user_subject(id, registration_Date, subject_Id, user_Id)
-values ('101', '2021-08-23T18:25:43.511Z', '101', '101'),
-       ('102', '2021-08-25T18:25:43.511Z', '104', '101'),
+values ('102', '2021-08-25T18:25:43.511Z', '104', '101'),
        ('103', '2021-09-24T18:25:43.511Z', '105', '101'),
        ('104', '2021-08-25T18:25:43.511Z', '104', '102'),
        ('105', '2021-10-25T18:25:43.511Z', '105', '102'),
-       ('106', '2021-08-25T18:25:43.511Z', '101', '103'),
-       ('107', '2021-11-07T18:25:43.511Z', '101', '104'),
+       ('106', '2021-08-25T18:25:43.511Z', '101', '108'),
+       ('107', '2021-11-07T18:25:43.511Z', '101', '109'),
        ('108', '2021-11-07T18:28:43.511Z', '102', '104'),
        ('109', '2021-11-07T19:25:43.511Z', '103', '104'),
        ('110', '2021-12-01T20:25:43.511Z', '102', '105'),

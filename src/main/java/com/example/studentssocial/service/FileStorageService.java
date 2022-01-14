@@ -7,13 +7,20 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStorageService {
-    public void init();
 
-    public void save(MultipartFile file);
+    public void save(MultipartFile file, String filePath, String fileName);
 
-    public Resource load(String filename);
+    public Resource load(String filename,String subjectName);
 
     public void deleteAll();
 
+    public void checkAndAddFolder(String folderName);
+
     public Stream<Path> loadAll();
+
+    public String getRootPath();
+
+    public String generateNameForExistingFile(String fileName, String filePath);
+
+    public boolean checkIfFileNameExists(String fileName, String filePath);
 }

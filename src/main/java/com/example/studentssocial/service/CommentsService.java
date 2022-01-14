@@ -2,6 +2,7 @@ package com.example.studentssocial.service;
 
 import com.example.studentssocial.dto.CommentsDto;
 import com.example.studentssocial.dto.MessageDto;
+import com.example.studentssocial.dto.PostDto;
 import com.example.studentssocial.entity.Comments;
 import com.example.studentssocial.entity.User;
 import com.example.studentssocial.enums.UserEmailOptions;
@@ -13,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentsService {
@@ -61,7 +64,21 @@ public class CommentsService {
                 finalComments.add(commentsMapper.mapCommentsToCommentsDto(comments));
             }
         }
-        return finalComments;
+
+        Comparator<CommentsDto> comparator = (CommentsDto o1, CommentsDto o2) -> {
+            if (o1.getCommentsDate().before(o2.getCommentsDate())) {
+                return 1;
+            } else if (o1.getCommentsDate().equals(o2.getCommentsDate())) {
+                return 0;
+            } else {
+                return -1;
+            }
+
+        };
+        ArrayList<CommentsDto> comments = finalComments.stream().sorted(comparator).collect(Collectors.toCollection(ArrayList::new));
+
+
+        return comments;
     }
 
     public CommentsDto updateComments(Comments commentsDto)
@@ -86,6 +103,7 @@ public class CommentsService {
         Comments savedComments = commentsRepository.save(comments);
 
         MessageDto messageDto = messageMapper.fromCommentDtoToMessageDto(commentsDto);
+
         Thread thread = new Thread(() -> sendEmailService.verifyAndSendEmail(messageDto, UserEmailOptions.COMMENT));
         thread.start();
         return commentsMapper.mapCommentsToCommentsDto(savedComments);
